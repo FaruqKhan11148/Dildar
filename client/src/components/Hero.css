@@ -1,0 +1,157 @@
+/* =========================
+   MOBILE FIRST BASE STYLE
+========================= */
+
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* BACKGROUND IMAGE */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+}
+
+/* OVERLAY */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* CONTENT */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  padding: 0 16px;
+}
+
+/* TITLE (mobile base) */
+.hero-title {
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.hero-title span {
+  display: block;
+  color: #ef4444;
+}
+
+/* SUBTITLE */
+.hero-subtitle {
+  margin-top: 18px;
+  color: #d1d5db;
+  font-size: 15px;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* BUTTONS */
+.hero-buttons {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero-buttons a {
+  text-decoration: none;
+  width: 80%;
+  text-align: center;
+}
+
+/* BUTTONS (mobile size) */
+.btn-order,
+.btn-view {
+  padding: 14px 24px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+/* ORDER */
+.btn-order {
+  background: #ef4444;
+  color: white;
+  border: none;
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+}
+
+.btn-order:hover {
+  background: #dc2626;
+  transform: scale(1.03);
+}
+
+/* VIEW */
+.btn-view {
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.btn-view:hover {
+  background: white;
+  color: black;
+}
+
+/* =========================
+   TABLET (≥768px)
+========================= */
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 55px;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    max-width: 600px;
+  }
+
+  .hero-buttons {
+    flex-direction: row;
+  }
+
+  .hero-buttons a {
+    width: auto;
+  }
+}
+
+/* =========================
+   DESKTOP (≥1024px)
+========================= */
+@media (min-width: 1024px) {
+  .hero-title {
+    font-size: 70px;
+  }
+
+  .hero-subtitle {
+    font-size: 20px;
+    max-width: 700px;
+  }
+
+  .hero-buttons {
+    gap: 20px;
+  }
+
+  .btn-order,
+  .btn-view {
+    padding: 16px 40px;
+    font-size: 18px;
+  }
+}

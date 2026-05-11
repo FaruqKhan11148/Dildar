@@ -1,0 +1,36 @@
+.products-page {
+  background: #000;
+  min-height: 100vh;
+  color: white;
+}
+
+/* HEADER */
+.products-header {
+  padding: 100px 20px 60px;
+}
+
+.products-title {
+  font-size: 52px;
+  font-weight: 800;
+}
+
+.products-desc {
+  color: #9ca3af;
+  font-size: 18px;
+  margin-top: 16px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .products-title {
+    font-size: 36px;
+  }
+
+  .products-desc {
+    font-size: 15px;
+  }
+}

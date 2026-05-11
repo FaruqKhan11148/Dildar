@@ -1,0 +1,246 @@
+/* =========================
+   FOOTER BASE
+========================= */
+
+.footer {
+  position: relative;
+  background: #000;
+  color: white;
+  border-top: 1px solid #1f1f1f;
+  overflow: hidden;
+  padding: 60px 16px 25px;
+}
+
+/* CONTAINER */
+.footer-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* GLOW */
+.footer-glow-left,
+.footer-glow-right {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: rgba(239, 68, 68, 0.1);
+  filter: blur(80px);
+  border-radius: 50%;
+}
+
+.footer-glow-left {
+  top: 0;
+  left: 0;
+}
+
+.footer-glow-right {
+  bottom: 0;
+  right: 0;
+}
+
+/* =========================
+   GRID (IMPORTANT FIX)
+========================= */
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+/* BOX */
+.footer-box {
+  text-align: left;
+}
+
+/* =========================
+   BRAND
+========================= */
+
+.footer-logo {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.footer-logo .text-red {
+  color: #ef4444;
+}
+
+.footer-text {
+  color: #9ca3af;
+  margin-top: 14px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+/* SOCIAL */
+.footer-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.social-icon {
+  background: #111;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.social-icon:active {
+  transform: scale(0.9);
+}
+
+.social-icon.whatsapp:hover {
+  background: #22c55e;
+}
+
+.social-icon.instagram:hover {
+  background: #ec4899;
+}
+
+/* =========================
+   TITLES
+========================= */
+
+.footer-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+/* LIST */
+.footer-list {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-list li {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.footer-list li a {
+  color: #9ca3af;
+  text-decoration: none;
+}
+
+.footer-list li a:active {
+  color: #ef4444;
+}
+
+/* CONTACT */
+.footer-contact p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #9ca3af;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* ICON COLORS */
+.icon.red {
+  color: #ef4444;
+}
+
+.icon.green {
+  color: #22c55e;
+}
+
+/* =========================
+   BOTTOM
+========================= */
+
+.footer-bottom {
+  border-top: 1px solid #1f1f1f;
+  margin-top: 40px;
+  padding-top: 18px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 12px;
+}
+
+.footer-bottom p {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* SCROLL BUTTON */
+.scroll-top {
+  background: #ef4444;
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  align-self: center;
+}
+
+.scroll-top:active {
+  transform: scale(0.9);
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (min-width: 768px) {
+
+  .footer {
+    padding: 80px 20px 30px;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-logo {
+    font-size: 32px;
+  }
+
+  .footer-title {
+    font-size: 20px;
+  }
+
+  .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 1024px) {
+
+  .footer-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .footer-glow-left,
+  .footer-glow-right {
+    width: 280px;
+    height: 280px;
+  }
+
+  .footer-logo {
+    font-size: 36px;
+  }
+
+  .footer-text {
+    font-size: 15px;
+  }
+
+  .footer-title {
+    font-size: 22px;
+  }
+}

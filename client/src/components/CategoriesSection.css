@@ -1,0 +1,112 @@
+/* =========================
+   BASE (MOBILE FIRST)
+========================= */
+
+.categories-section {
+  position: relative;
+  background: black;
+  padding: 70px 16px;
+  overflow: hidden;
+}
+
+/* GLOW EFFECTS */
+.categories-glow-left,
+.categories-glow-right {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 0, 0, 0.1);
+  filter: blur(100px);
+  border-radius: 50%;
+}
+
+.categories-glow-left {
+  top: 0;
+  left: 0;
+}
+
+.categories-glow-right {
+  bottom: 0;
+  right: 0;
+}
+
+/* SUBTITLE */
+.categories-subtitle {
+  color: #ef4444;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+/* TITLE */
+.categories-title {
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+  margin-top: 12px;
+  line-height: 1.2;
+}
+
+.categories-title span {
+  color: #ef4444;
+}
+
+/* DESCRIPTION */
+.categories-description {
+  color: #9ca3af;
+  max-width: 100%;
+  margin: 16px auto 0;
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 0 10px;
+}
+
+/* GRID spacing fix for mobile */
+.categories-section .row {
+  margin-top: 30px;
+}
+
+/* =========================
+   TABLET (≥768px)
+========================= */
+@media (min-width: 768px) {
+  .categories-section {
+    padding: 100px 20px;
+  }
+
+  .categories-title {
+    font-size: 48px;
+  }
+
+  .categories-description {
+    font-size: 17px;
+    max-width: 700px;
+  }
+
+  .categories-glow-left,
+  .categories-glow-right {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+/* =========================
+   DESKTOP (≥1024px)
+========================= */
+@media (min-width: 1024px) {
+  .categories-title {
+    font-size: 60px;
+  }
+
+  .categories-description {
+    font-size: 18px;
+    line-height: 1.8;
+  }
+
+  .categories-glow-left,
+  .categories-glow-right {
+    width: 300px;
+    height: 300px;
+  }
+}

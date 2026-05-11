@@ -1,0 +1,122 @@
+/* =========================
+   BASE NAVBAR
+========================= */
+
+.navbar-custom {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #1f1f1f;
+  padding: 14px 16px;
+  /* border-bottom: 2px solid white; */
+}
+
+/* container */
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* LOGO */
+.navbar-logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+}
+
+.navbar-logo span {
+  color: #ef4444;
+}
+
+/* HAMBURGER ICON */
+.menu-icon {
+  font-size: 22px;
+  color: white;
+  cursor: pointer;
+  display: block;
+  z-index: 1000;
+  margin-right: 10px;
+}
+
+/* LINKS (MOBILE DEFAULT HIDDEN) */
+.navbar-links {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: #0a0a0a;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border-left: 1px solid #1f1f1f;
+
+  transform: translateX(100%);
+  transition: 0.3s ease;
+}
+
+/* ACTIVE MENU */
+.navbar-links.active {
+  transform: translateX(0);
+}
+
+/* LINKS */
+.navbar-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+/* HOVER */
+.navbar-links a:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* =========================
+   TABLET & DESKTOP
+========================= */
+
+@media (min-width: 768px) {
+  .menu-icon {
+    display: none;
+  }
+
+  .navbar-links {
+    position: static;
+    flex-direction: row;
+    background: transparent;
+    transform: none;
+    width: auto;
+    padding: 0;
+    border: none;
+  }
+
+  .navbar-links a {
+    font-size: 16px;
+    padding: 6px 10px;
+    position: relative;
+  }
+
+  /* underline effect */
+  .navbar-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background: #ef4444;
+    transition: 0.3s;
+  }
+
+  .navbar-links a:hover::after {
+    width: 100%;
+  }
+}
