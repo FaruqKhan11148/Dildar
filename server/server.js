@@ -2,11 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-const shopRoutes = require("./routes/shopRoutes");
-const productRoutes = require("./routes/productRoutes");
-const orderRoutes = require("./routes/orderRoutes");
+const shopRoutes = require('./routes/shopRoutes');
+const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
-const { errorHandler } = require("./middlewares/errorMiddleware");
+const { errorHandler } = require('./middlewares/errorMiddleware');
 
 dotenv.config();
 
@@ -19,9 +20,10 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/shops", shopRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/orders", orderRoutes);
+app.use('/api/shops', shopRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/payment', paymentRoutes);
 
 app.get('/', (req, res) => {
   res.send('API Running....');

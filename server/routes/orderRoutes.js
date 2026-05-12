@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 
 const router = express.Router();
 
@@ -6,15 +6,23 @@ const {
   getOrders,
   createOrder,
   getOrdersByShop,
-  updateOrderStatus
-} = require('../controllers/orderController');
+  updateOrderStatus,
+  getSingleOrder,
+} = require("../controllers/orderController");
 
-router.get('/', getOrders);
+/* GET ALL */
+router.get("/", getOrders);
 
-router.post('/', createOrder);
+/* CREATE */
+router.post("/", createOrder);
 
-router.get('/shop/:shopId', getOrdersByShop);
+/* GET BY SHOP */
+router.get("/shop/:shopId", getOrdersByShop);
 
+/* GET SINGLE */
+router.get("/:id", getSingleOrder);
+
+/* UPDATE STATUS */
 router.put("/:id/status", updateOrderStatus);
 
 module.exports = router;

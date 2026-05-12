@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 
 const router = express.Router();
 
@@ -11,22 +11,52 @@ const {
   getLatestProducts,
   getProductsByCategory,
   searchProducts,
-} = require('../controllers/productController');
+} = require("../controllers/productController");
 
-router.get('/', getProducts);
+/* =========================
+   GET ALL PRODUCTS
+========================= */
+router.get("/", getProducts);
 
-router.get('/shop/:shopId', getProductsByShop);
+/* =========================
+   SEARCH PRODUCTS
+========================= */
+router.get("/search", searchProducts);
 
-router.post('/', createProduct);
+/* =========================
+   LATEST PRODUCTS
+========================= */
+router.get("/latest", getLatestProducts);
 
-router.put('/:id', updateProduct);
+/* =========================
+   PRODUCTS BY CATEGORY
+========================= */
+router.get(
+  "/category/:category",
+  getProductsByCategory
+);
 
-router.delete('/:id', deleteProduct);
+/* =========================
+   PRODUCTS BY SHOP
+========================= */
+router.get(
+  "/shop/:shopId",
+  getProductsByShop
+);
 
-router.get('/latest', getLatestProducts);
+/* =========================
+   CREATE PRODUCT
+========================= */
+router.post("/", createProduct);
 
-router.get('/category/:category', getProductsByCategory);
+/* =========================
+   UPDATE PRODUCT
+========================= */
+router.put("/:id", updateProduct);
 
-router.get('/search', searchProducts);
+/* =========================
+   DELETE PRODUCT
+========================= */
+router.delete("/:id", deleteProduct);
 
 module.exports = router;

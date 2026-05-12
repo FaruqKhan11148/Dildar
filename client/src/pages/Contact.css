@@ -184,6 +184,11 @@
   transition: 0.3s;
 }
 
+.contact-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .contact-form button:hover {
   background: #dc2626;
   transform: scale(1.05);

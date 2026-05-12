@@ -1,9 +1,9 @@
-import "./CategoryCard.css";
+import './CategoryCard.css';
+import { Link } from "react-router-dom";
 
 function CategoryCard({ title, image }) {
   return (
     <div className="category-card">
-
       {/* IMAGE */}
       <div className="category-image-wrapper">
         <img src={image} alt={title} className="category-image" />
@@ -14,21 +14,14 @@ function CategoryCard({ title, image }) {
 
       {/* CONTENT */}
       <div className="category-content">
+        <p className="category-subtext">Fresh & Hygienic</p>
 
-        <p className="category-subtext">
-          Fresh & Hygienic
-        </p>
+        <h2 className="category-title">{title}</h2>
 
-        <h2 className="category-title">
-          {title}
-        </h2>
-
-        <button className="category-btn">
+        <Link to="/products" className="category-btn">
           Explore
-        </button>
-
+        </Link>
       </div>
-
     </div>
   );
 }

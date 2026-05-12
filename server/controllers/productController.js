@@ -96,14 +96,14 @@ const getProductsByCategory = async (req, res) => {
 
 const searchProducts = async (req, res) => {
   try {
-    const keyword = req.query.keyword;
+    const keyword = req.query.q;
 
     const products = await Product.find({
       name: {
-        $regex: keyword,
+        $regex: keyword || '',
         $options: 'i',
       },
-    });
+    }).sort({ createdAt: -1 });
 
     res.json(products);
   } catch (error) {

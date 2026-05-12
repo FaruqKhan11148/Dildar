@@ -1,20 +1,24 @@
-import "./Cart.css";
+import './Cart.css';
 
-import { useContext } from "react";
+import { useContext } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 import {
   FaTrash,
-  FaWhatsapp,
   FaMinus,
   FaPlus,
-} from "react-icons/fa";
+} from 'react-icons/fa';
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
-import { CartContext } from "../context/CartContext";
-import { sendWhatsAppMessage } from "../utils/whatsapp";
+import { CartContext } from '../context/CartContext';
 
 function Cart() {
+
+  const navigate = useNavigate();
+
   const {
     cartItems,
     removeFromCart,
@@ -23,8 +27,9 @@ function Cart() {
   } = useContext(CartContext);
 
   const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
+    (acc, item) =>
+      acc + item.price * item.quantity,
+    0,
   );
 
   return (
@@ -43,29 +48,49 @@ function Cart() {
           {/* HEADER */}
           <div className="text-center cart-header">
 
-            <p className="cart-subtitle">Fresh Orders</p>
+            <p className="cart-subtitle">
+              Fresh Orders
+            </p>
 
-            <h1 className="cart-title">Your Cart</h1>
+            <h1 className="cart-title">
+              Your Cart
+            </h1>
 
             <p className="cart-desc">
-              Review your selected chicken products before placing order.
+              Review your selected chicken
+              products before placing order.
             </p>
 
           </div>
 
           {/* EMPTY CART */}
           {cartItems.length === 0 ? (
+
             <div className="cart-empty">
-              <h2>Cart is Empty 🛒</h2>
-              <p>Add fresh products to continue.</p>
+
+              <h2>
+                Cart is Empty 🛒
+              </h2>
+
+              <p>
+                Add fresh products to continue.
+              </p>
+
             </div>
+
           ) : (
+
             <>
+
               {/* ITEMS */}
               <div className="cart-items">
 
                 {cartItems.map((item) => (
-                  <div key={item._id} className="cart-card">
+
+                  <div
+                    key={item._id}
+                    className="cart-card"
+                  >
 
                     {/* LEFT */}
                     <div className="cart-left">
@@ -101,7 +126,9 @@ function Cart() {
                       <div className="qty-box">
 
                         <button
-                          onClick={() => decreaseQuantity(item._id)}
+                          onClick={() =>
+                            decreaseQuantity(item._id)
+                          }
                           className="qty-btn"
                         >
                           <FaMinus />
@@ -112,7 +139,9 @@ function Cart() {
                         </span>
 
                         <button
-                          onClick={() => increaseQuantity(item._id)}
+                          onClick={() =>
+                            increaseQuantity(item._id)
+                          }
                           className="qty-btn"
                         >
                           <FaPlus />
@@ -122,7 +151,9 @@ function Cart() {
 
                       {/* REMOVE */}
                       <button
-                        onClick={() => removeFromCart(item._id)}
+                        onClick={() =>
+                          removeFromCart(item._id)
+                        }
                         className="remove-btn"
                       >
                         <FaTrash />
@@ -132,6 +163,7 @@ function Cart() {
                     </div>
 
                   </div>
+
                 ))}
 
               </div>
@@ -144,7 +176,10 @@ function Cart() {
                 </p>
 
                 <h2 className="summary-total">
-                  Total: <span>₹{totalPrice}</span>
+                  Total:
+                  <span>
+                    ₹{totalPrice}
+                  </span>
                 </h2>
 
                 <p className="summary-note">
@@ -154,15 +189,16 @@ function Cart() {
                 <button
                   className="checkout-btn"
                   onClick={() =>
-                    sendWhatsAppMessage(cartItems, totalPrice)
+                    navigate('/checkout')
                   }
                 >
-                  <FaWhatsapp />
-                  Checkout on WhatsApp
+                  Proceed To Checkout
                 </button>
 
               </div>
+
             </>
+
           )}
 
         </div>

@@ -12,6 +12,13 @@ import {
 } from "react-icons/fa";
 
 function Contact() {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    alert("Message Sent Successfully 🚚");
+  };
+
   return (
     <div className="contact-page">
 
@@ -28,7 +35,9 @@ function Contact() {
           {/* HEADER */}
           <div className="text-center contact-header">
 
-            <p className="contact-subtitle">Get In Touch</p>
+            <p className="contact-subtitle">
+              Get In Touch
+            </p>
 
             <h1 className="contact-title">
               Contact <span>Dildar Chicken</span>
@@ -51,46 +60,65 @@ function Contact() {
               <div className="contact-stack">
 
                 {/* PHONE */}
-                <div className="contact-card red">
+                <a
+                  href="tel:+919876543210"
+                  className="contact-link"
+                >
+                  <div className="contact-card red">
 
-                  <div className="icon-box red">
-                    <FaPhone />
+                    <div className="icon-box red">
+                      <FaPhone />
+                    </div>
+
+                    <div>
+                      <h2>Phone</h2>
+                      <p>+91 9876543210</p>
+                    </div>
+
                   </div>
-
-                  <div>
-                    <h2>Phone</h2>
-                    <p>+91 9876543210</p>
-                  </div>
-
-                </div>
+                </a>
 
                 {/* WHATSAPP */}
-                <div className="contact-card green">
+                <a
+                  href="https://wa.me/919876543210"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="contact-link"
+                >
+                  <div className="contact-card green">
 
-                  <div className="icon-box green">
-                    <FaWhatsapp />
+                    <div className="icon-box green">
+                      <FaWhatsapp />
+                    </div>
+
+                    <div>
+                      <h2>WhatsApp</h2>
+                      <p>Fast customer support anytime</p>
+                    </div>
+
                   </div>
-
-                  <div>
-                    <h2>WhatsApp</h2>
-                    <p>Fast customer support anytime</p>
-                  </div>
-
-                </div>
+                </a>
 
                 {/* INSTAGRAM */}
-                <div className="contact-card pink">
+                <a
+                  href="https://instagram.com/dildarchicken"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="contact-link"
+                >
+                  <div className="contact-card pink">
 
-                  <div className="icon-box pink">
-                    <FaInstagram />
+                    <div className="icon-box pink">
+                      <FaInstagram />
+                    </div>
+
+                    <div>
+                      <h2>Instagram</h2>
+                      <p>@dildarchicken</p>
+                    </div>
+
                   </div>
-
-                  <div>
-                    <h2>Instagram</h2>
-                    <p>@dildarchicken</p>
-                  </div>
-
-                </div>
+                </a>
 
                 {/* LOCATION */}
                 <div className="contact-card red">
@@ -117,11 +145,28 @@ function Contact() {
 
                 <h2>Send Message</h2>
 
-                <form className="contact-form">
+                <form
+                  className="contact-form"
+                  onSubmit={handleSubmit}
+                >
 
-                  <input type="text" placeholder="Your Name" />
-                  <input type="email" placeholder="Your Email" />
-                  <textarea rows="6" placeholder="Your Message"></textarea>
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    required
+                  />
+
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    required
+                  />
+
+                  <textarea
+                    rows="6"
+                    placeholder="Your Message"
+                    required
+                  ></textarea>
 
                   <button type="submit">
                     <FaPaperPlane />
