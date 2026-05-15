@@ -9,7 +9,7 @@ import Footer from '../components/Footer';
 
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+const socket = io('https://dildar.onrender.com');
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
