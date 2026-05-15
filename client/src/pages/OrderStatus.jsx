@@ -2,7 +2,6 @@ import './OrderStatus.css';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
 import { io } from 'socket.io-client';
 
 import Navbar from '../components/Navbar';
@@ -11,7 +10,7 @@ import Footer from '../components/Footer';
 import API from '../api/axios';
 
 // 🔥 socket connection
-const socket = io('http://localhost:5000');
+const socket = io("https://dildar.onrender.com");
 
 function OrderStatus() {
   const { id } = useParams();
