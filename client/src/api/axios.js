@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",   // change this with hosted link later
+  baseURL: 'https://dildar-client.onrender.com/api', // change this with hosted link later
 });
 
 export default API;
