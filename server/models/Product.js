@@ -1,12 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema(
   {
-    shop: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Shop",
-    },
-
     name: {
       type: String,
       required: true,
@@ -21,8 +16,9 @@ const productSchema = new mongoose.Schema(
 
     image: {
       type: String,
+
       default:
-        "https://via.placeholder.com/300",
+        'https://assets.tendercuts.in/product/C/H/594e4559-f6b7-417d-9aac-d0643b5711d3.jpg',
     },
 
     description: {
@@ -42,20 +38,21 @@ const productSchema = new mongoose.Schema(
 
     unit: {
       type: String,
-      default: "kg",
+
+      default: 'kg',
     },
 
     isAvailable: {
       type: Boolean,
+
       default: true,
     },
   },
+
   {
     timestamps: true,
-  }
+  },
 );
 
-module.exports = mongoose.model(
-  "Product",
-  productSchema
-);
+
+module.exports = mongoose.model('Product', productSchema);

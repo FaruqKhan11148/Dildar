@@ -1,12 +1,25 @@
-import './CategoryCard.css';
-import { Link } from "react-router-dom";
+import "./CategoryCard.css";
 
-function CategoryCard({ title, image }) {
+function CategoryCard({
+  title,
+  image,
+  price,
+  onOrder,
+}) {
+
   return (
+
     <div className="category-card">
+
       {/* IMAGE */}
       <div className="category-image-wrapper">
-        <img src={image} alt={title} className="category-image" />
+
+        <img
+          src={image}
+          alt={title}
+          className="category-image"
+        />
+
       </div>
 
       {/* OVERLAY */}
@@ -14,15 +27,30 @@ function CategoryCard({ title, image }) {
 
       {/* CONTENT */}
       <div className="category-content">
-        <p className="category-subtext">Fresh & Hygienic</p>
 
-        <h2 className="category-title">{title}</h2>
+        <p className="category-subtext">
+          Fresh & Hygienic
+        </p>
 
-        <Link to="/products" className="category-btn">
-          Explore
-        </Link>
+        <h2 className="category-title">
+          {title}
+        </h2>
+
+        <p className="category-price">
+          ₹{price}
+        </p>
+
+        <button
+          className="category-btn"
+          onClick={onOrder}
+        >
+          Order Now
+        </button>
+
       </div>
+
     </div>
+
   );
 }
 

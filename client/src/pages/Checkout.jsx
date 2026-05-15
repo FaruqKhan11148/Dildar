@@ -1,117 +1,157 @@
-import "./Checkout.css";
+import './Checkout.css';
 
-import { useContext, useState } from "react";
+import { useState } from 'react';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from 'react-router-dom';
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import { FaMinus, FaPlus } from 'react-icons/fa';
 
-import { CartContext } from "../context/CartContext";
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
-import API from "../api/axios";
+import API from '../api/axios';
 
 function Checkout() {
-
-  const {
-    cartItems,
-    clearCart,
-  } = useContext(CartContext);
-
   const navigate = useNavigate();
 
-  const [loading, setLoading] =
-    useState(false);
+  const { state } = useLocation();
 
-  const [formData, setFormData] =
-    useState({
-      customerName: "",
-      phone: "",
-      address: "",
-    });
+  const product = state?.product;
 
-  const totalPrice = cartItems.reduce(
-    (acc, item) =>
-      acc + item.price * item.quantity,
-    0
-  );
+  const [quantity, setQuantity] = useState(1);
+
+  const [loading, setLoading] = useState(false);
+
+  const [paymentScreenshot, setPaymentScreenshot] = useState('');
+
+  const [formData, setFormData] = useState({
+    customerName: '',
+    phone: '',
+    address: '',
+  });
+
+  const totalPrice = product.price * quantity;
 
   const handleChange = (e) => {
-
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
 
+  const increaseQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
   };
 
   const placeOrder = async () => {
-
     try {
-
       setLoading(true);
 
+      if (!formData.customerName || !formData.phone || !formData.address) {
+        alert('Please fill all details');
+
+        setLoading(false);
+
+        return;
+      }
+
+      if (!paymentScreenshot) {
+        alert('Please add payment screenshot');
+
+        setLoading(false);
+
+        return;
+      }
+
       const orderData = {
+        customerName: formData.customerName,
 
-        customerName:
-          formData.customerName,
+        phone: formData.phone,
 
-        phone:
-          formData.phone,
+        address: formData.address,
 
-        address:
-          formData.address,
+        product: {
+          productId: product._id,
+          name: product.name,
+          image: product.image,
+          price: product.price,
+        },
 
-        products: cartItems.map((item) => ({
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price,
-        })),
+        quantity,
 
         totalAmount: totalPrice,
 
+        paymentScreenshot: paymentScreenshot?.name || '',
+
+        paymentMethod: 'PhonePe QR',
       };
 
-      const { data } = await API.post(
-        "/orders",
-        orderData
-      );
+      const { data } = await API.post('/orders', orderData);
 
-      clearCart();
-
-      navigate(
-        `/order-status/${data._id}`
-      );
-
+      navigate(`/order-status/${data._id}`);
     } catch (error) {
-
       console.log(error);
 
-      alert("Order Failed");
-
+      alert('Order Failed');
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
   return (
-
     <div className="checkout-page">
-
       <Navbar />
 
       <div className="checkout-container">
+        <h1>Order</h1>
 
-        <h1>
-          Checkout
-        </h1>
+        {/* PRODUCT */}
+        <div className="checkout-cart">
+          <h2>Selected Product</h2>
+
+          <div className="checkout-cart-item">
+            {/* LEFT */}
+            <div className="checkout-cart-left">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="checkout-cart-img"
+              />
+
+              <div>
+                <h3>{product.name}</h3>
+
+                <p>₹{product.price}</p>
+
+                <p>Total: ₹{totalPrice}</p>
+              </div>
+            </div>
+
+            {/* RIGHT */}
+            <div className="checkout-cart-right">
+              <div className="qty-box">
+                <button onClick={decreaseQuantity} className="qty-btn">
+                  <FaMinus />
+                </button>
+
+                <span>{quantity}</span>
+
+                <button onClick={increaseQuantity} className="qty-btn">
+                  <FaPlus />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* FORM */}
         <div className="checkout-form">
-
           <input
             type="text"
             name="customerName"
@@ -131,66 +171,52 @@ function Checkout() {
             placeholder="Delivery Address"
             rows="5"
             onChange={handleChange}
-          ></textarea>
+          />
+        </div>
 
+        {/* PAYMENT */}
+        <div className="payment-box">
+          <h2>Pay Using PhonePe QR</h2>
+
+          <img
+            src="https://i.ibb.co/8gZ1G6F/qr-demo.png"
+            alt="QR Code"
+            className="qr-image"
+          />
+
+          <p>Scan QR and complete payment</p>
+          <h2>OR</h2>
+          <h5>Pay : +91 6363120602</h5>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setPaymentScreenshot(e.target.files[0])}
+          />
         </div>
 
         {/* SUMMARY */}
         <div className="checkout-summary">
+          <h2>Order Summary</h2>
 
-          <h2>
-            Order Summary
-          </h2>
+          <div className="checkout-item">
+            <p>
+              {product.name} x {quantity}
+            </p>
 
-          {cartItems.map((item) => (
+            <p>₹{totalPrice}</p>
+          </div>
 
-            <div
-              key={item._id}
-              className="checkout-item"
-            >
+          <h3>Total: ₹{totalPrice}</h3>
 
-              <p>
-                {item.name}
-                {" "}x{" "}
-                {item.quantity}
-              </p>
-
-              <p>
-                ₹
-                {item.price * item.quantity}
-              </p>
-
-            </div>
-
-          ))}
-
-          <h3>
-            Total: ₹{totalPrice}
-          </h3>
-
-          <button
-            onClick={placeOrder}
-            disabled={loading}
-          >
-
-            {
-              loading
-                ? "Placing Order..."
-                : "Place Order"
-            }
-
+          <button onClick={placeOrder} disabled={loading}>
+            {loading ? 'Placing Order...' : 'Place Order'}
           </button>
-
         </div>
-
       </div>
 
       <Footer />
-
     </div>
-
   );
-
 }
 
 export default Checkout;

@@ -1,44 +1,57 @@
-import "./CategoriesSection.css";
+import './CategoriesSection.css';
 
-import CategoryCard from "./CategoryCard";
+import { useNavigate } from 'react-router-dom';
+
+import CategoryCard from './CategoryCard';
 
 function CategoriesSection() {
+  const navigate = useNavigate();
+
   const categories = [
     {
-      title: "Chicken Breast",
+      _id: 1,
+      title: 'Chicken Breast',
+      price: 220,
       image:
-        "https://images.unsplash.com/photo-1604503468506-a8da13d82791?q=80&w=1200&auto=format&fit=crop",
+        'https://assets.tendercuts.in/product/C/H/594e4559-f6b7-417d-9aac-d0643b5711d3.jpg',
     },
 
     {
-      title: "Chicken Wings",
+      _id: 2,
+      title: 'Chicken Wings',
+      price: 180,
       image:
-        "https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=1200&auto=format&fit=crop",
+        'https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=1200&auto=format&fit=crop',
     },
 
     {
-      title: "Fresh Curry Cut",
+      _id: 3,
+      title: 'Fresh Curry Cut',
+      price: 250,
       image:
-        "https://images.unsplash.com/photo-1603048297172-c92544798d5a?q=80&w=1200&auto=format&fit=crop",
+        'https://images.unsplash.com/photo-1603048297172-c92544798d5a?q=80&w=1200&auto=format&fit=crop',
     },
   ];
 
-  return (
-    <section className="categories-section">
+  const handleOrderNow = (product) => {
+    navigate('/checkout', {
+      state: {
+        product,
+      },
+    });
+  };
 
+  return (
+    <section className="categories-section" id="categories">
       {/* GLOW */}
       <div className="categories-glow-left"></div>
 
       <div className="categories-glow-right"></div>
 
       <div className="container position-relative">
-
         {/* TITLE */}
         <div className="text-center mb-5">
-
-          <p className="categories-subtitle">
-            Fresh Categories
-          </p>
+          <p className="categories-subtitle">Fresh Categories</p>
 
           <h2 className="categories-title">
             Explore Our
@@ -46,32 +59,25 @@ function CategoriesSection() {
           </h2>
 
           <p className="categories-description">
-            Freshly cut premium quality chicken
-            categories available for fast and hygienic
-            home delivery.
+            Freshly cut premium quality chicken available for fast home
+            delivery.
           </p>
-
         </div>
 
         {/* CARDS */}
         <div className="row g-4">
-
-          {categories.map((category, index) => (
-            <div
-              className="col-md-4"
-              key={index}
-            >
+          {categories.map((category) => (
+            <div className="col-md-4" key={category._id}>
               <CategoryCard
                 title={category.title}
                 image={category.image}
+                price={category.price}
+                onOrder={() => handleOrderNow(category)}
               />
             </div>
           ))}
-
         </div>
-
       </div>
-
     </section>
   );
 }

@@ -1,172 +1,138 @@
-const Order = require("../models/Order");
+const Order = require('../models/Order');
 
-/* =========================
-   GET ALL ORDERS
-========================= */
+// GET ALL ORDERS
 const getOrders = async (req, res) => {
   try {
-
-    const orders = await Order.find()
-      .populate("shop")
-      .sort({ createdAt: -1 });
+    const orders = await Order.find().sort({
+      createdAt: -1,
+    });
 
     res.json(orders);
-
   } catch (error) {
-
     res.status(500).json({
       message: error.message,
     });
-
   }
 };
 
-/* =========================
-   CREATE ORDER
-========================= */
+// CREATE ORDER
 const createOrder = async (req, res) => {
   try {
-
     const {
       customerName,
+
       phone,
+
       address,
-      products,
+
+      product,
+
+      quantity,
+
       totalAmount,
-      shop,
+
+      paymentScreenshot,
+
+      paymentMethod,
     } = req.body;
 
     // VALIDATION
-    if (
-      !customerName ||
-      !phone ||
-      !address ||
-      !products ||
-      products.length === 0
-    ) {
-
+    if (!customerName || !phone || !address || !product || !quantity) {
       return res.status(400).json({
-        message: "Please fill all fields",
+        message: 'Please fill all fields',
       });
-
     }
 
     const order = await Order.create({
       customerName,
+
       phone,
+
       address,
-      products,
+
+      product,
+
+      quantity,
+
       totalAmount,
-      shop,
+
+      paymentScreenshot,
+
+      paymentMethod,
+
+      status: 'Pending Payment',
     });
 
     res.status(201).json(order);
-
   } catch (error) {
-
     res.status(500).json({
       message: error.message,
     });
-
   }
 };
 
-/* =========================
-   GET SINGLE ORDER
-========================= */
+// GET SINGLE ORDER
 const getSingleOrder = async (req, res) => {
   try {
-
-    const order = await Order.findById(
-      req.params.id
-    ).populate("shop");
+    const order = await Order.findById(req.params.id);
 
     if (!order) {
-
       return res.status(404).json({
-        message: "Order not found",
+        message: 'Order not found',
       });
-
     }
 
     res.json(order);
-
   } catch (error) {
-
     res.status(500).json({
       message: error.message,
     });
-
   }
 };
 
-/* =========================
-   GET ORDERS BY SHOP
-========================= */
-const getOrdersByShop = async (req, res) => {
+// UPDATE ORDER STATUS
+const updateOrderStatus = async (req, res) => {
   try {
-
-    const orders = await Order.find({
-      shop: req.params.shopId,
-    }).sort({ createdAt: -1 });
-
-    res.json(orders);
-
-  } catch (error) {
-
-    res.status(500).json({
-      message: error.message,
-    });
-
-  }
-};
-
-/* =========================
-   UPDATE ORDER STATUS
-========================= */
-const updateOrderStatus = async (
-  req,
-  res
-) => {
-  try {
-
-    const order =
-      await Order.findByIdAndUpdate(
-        req.params.id,
-
-        {
-          status: req.body.status,
-        },
-
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+    const order = await Order.findById(req.params.id);
 
     if (!order) {
-
       return res.status(404).json({
-        message: "Order not found",
+        message: 'Order not found',
       });
-
     }
 
-    res.json(order);
+    order.status = req.body.status;
 
+    // AUTO PAYMENT VERIFY
+    if (req.body.status === 'Preparing') {
+      order.paymentVerified = true;
+
+      order.isPaid = true;
+
+      order.paidAt = new Date();
+    }
+
+    const updatedOrder = await order.save();
+
+    // SOCKET UPDATE
+    const io = req.app.get('io');
+
+    io.emit('order_updated', updatedOrder);
+
+    res.json(updatedOrder);
   } catch (error) {
-
     res.status(500).json({
       message: error.message,
     });
-
   }
 };
 
 module.exports = {
   getOrders,
+
   createOrder,
+
   getSingleOrder,
-  getOrdersByShop,
+
   updateOrderStatus,
 };

@@ -1,10 +1,9 @@
-import "./Hero.css";
-import { Link } from "react-router-dom";
+import './Hero.css';
+import { Link } from 'react-router-dom';
 
 function Hero() {
   return (
     <section className="hero-section">
-
       {/* BACKGROUND IMAGE */}
       <img
         src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f"
@@ -17,32 +16,26 @@ function Hero() {
 
       {/* CONTENT */}
       <div className="container hero-content text-center">
-
         <h1 className="hero-title">
           Fresh Chicken
           <span>Delivered Fast</span>
         </h1>
 
         <p className="hero-subtitle">
-          Premium quality fresh chicken delivered
-          hygienically to your doorstep.
+          Premium quality fresh chicken delivered hygienically to your doorstep.
         </p>
 
         {/* BUTTONS */}
         <div className="hero-buttons">
-
-          <Link to="/products" className="btn-order">
+          <a href="#products" className="btn-order">
             Order Now
-          </Link>
+          </a>
 
-          <Link to="/products" className="btn-view">
+          <a href="#products" className="btn-view">
             View Products
-          </Link>
-
+          </a>
         </div>
-
       </div>
-
     </section>
   );
 }

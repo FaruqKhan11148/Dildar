@@ -1,12 +1,25 @@
 import "./ProductCard.css";
-import { useContext } from "react";
-import { FaShoppingCart, FaStar } from "react-icons/fa";
-import { CartContext } from "../context/CartContext";
+
+import { FaStar } from "react-icons/fa";
+
+import { useNavigate } from "react-router-dom";
 
 function ProductCard({ product }) {
-  const { addToCart } = useContext(CartContext);
+
+  const navigate = useNavigate();
+
+  const handleOrderNow = () => {
+
+    navigate("/checkout", {
+      state: {
+        product,
+      },
+    });
+
+  };
 
   return (
+
     <div className="product-card">
 
       {/* BADGE */}
@@ -59,7 +72,7 @@ function ProductCard({ product }) {
           🚚 Fast Delivery Available
         </div>
 
-        {/* BOTTOM ROW */}
+        {/* BOTTOM */}
         <div className="product-bottom">
 
           {/* PRICE */}
@@ -68,19 +81,25 @@ function ProductCard({ product }) {
             <p>Starting From</p>
 
             <div className="price-row">
-              <span className="price">₹{product.price}</span>
-              <span className="unit">/kg</span>
+
+              <span className="price">
+                ₹{product.price}
+              </span>
+
+              <span className="unit">
+                /kg
+              </span>
+
             </div>
 
           </div>
 
-          {/* BUTTON */}
+          {/* ORDER */}
           <button
-            className="add-btn"
-            onClick={() => addToCart(product)}
+            className="add-btn btn-order"
+            onClick={handleOrderNow}
           >
-            <FaShoppingCart />
-            Add
+            Order Now
           </button>
 
         </div>
@@ -88,6 +107,7 @@ function ProductCard({ product }) {
       </div>
 
     </div>
+
   );
 }
 

@@ -1,6 +1,9 @@
 import './Navbar.css';
+
 import { useState } from 'react';
+
 import { Link } from 'react-router-dom';
+
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 function Navbar() {
@@ -24,12 +27,11 @@ function Navbar() {
           <Link to="/" onClick={() => setOpen(false)}>
             Home
           </Link>
-          <Link to="/products" onClick={() => setOpen(false)}>
+
+          <a href="/#products" onClick={() => setOpen(false)}>
             Products
-          </Link>
-          <Link to="/cart" onClick={() => setOpen(false)}>
-            Cart
-          </Link>
+          </a>
+
           <Link to="/contact" onClick={() => setOpen(false)}>
             Contact
           </Link>

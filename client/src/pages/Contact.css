@@ -184,6 +184,20 @@
   transition: 0.3s;
 }
 
+.whatsapp-direct-btn {
+  display: inline-block;
+  margin-bottom: 20px;
+
+  background: #25d366;
+  color: white;
+
+  padding: 12px 18px;
+  border-radius: 12px;
+
+  text-decoration: none;
+  font-weight: 600;
+}
+
 .contact-link {
   text-decoration: none;
   color: inherit;

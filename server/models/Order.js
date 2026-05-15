@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema(
   {
@@ -20,65 +20,77 @@ const orderSchema = new mongoose.Schema(
       trim: true,
     },
 
-    shop: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Shop",
-    },
+    // SINGLE PRODUCT
+    product: {
+      productId: {
+        type: mongoose.Schema.Types.ObjectId,
 
-    status: {
-      type: String,
-      enum: [
-        "Pending",
-        "Preparing",
-        "On The Way",
-        "Delivered",
-        "Cancelled",
-      ],
-      default: "Pending",
-    },
-
-    products: [
-      {
-        productId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-        },
-
-        name: {
-          type: String,
-          required: true,
-        },
-
-        quantity: {
-          type: Number,
-          required: true,
-          min: 1,
-        },
-
-        price: {
-          type: Number,
-          required: true,
-        },
-
-        image: {
-          type: String,
-        },
+        ref: 'Product',
       },
-    ],
+
+      name: {
+        type: String,
+        required: true,
+      },
+
+      image: {
+        type: String,
+      },
+
+      price: {
+        type: Number,
+        required: true,
+      },
+    },
+
+    quantity: {
+      type: Number,
+      required: true,
+      min: 1,
+    },
 
     totalAmount: {
       type: Number,
       required: true,
-      min: 0,
+    },
+
+    status: {
+      type: String,
+
+      enum: [
+        'Pending Payment',
+
+        'Preparing',
+
+        'On The Way',
+
+        'Delivered',
+
+        'Cancelled',
+      ],
+
+      default: 'Pending Payment',
     },
 
     paymentMethod: {
       type: String,
-      default: "COD",
+
+      default: 'PhonePe QR',
+    },
+
+    paymentScreenshot: {
+      type: String,
     },
 
     isPaid: {
       type: Boolean,
+
+      default: false,
+    },
+
+    paymentVerified: {
+      type: Boolean,
+
       default: false,
     },
 
@@ -86,12 +98,10 @@ const orderSchema = new mongoose.Schema(
       type: Date,
     },
   },
+
   {
     timestamps: true,
-  }
+  },
 );
 
-module.exports = mongoose.model(
-  "Order",
-  orderSchema
-);
+module.exports = mongoose.model('Order', orderSchema);

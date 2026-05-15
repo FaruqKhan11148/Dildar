@@ -1,59 +1,55 @@
-.status-page{
+.status-page {
   min-height: 100vh;
   background: black;
   color: white;
 }
 
-.status-container{
+.status-container {
   max-width: 900px;
   margin: auto;
   padding: 80px 20px;
   text-align: center;
 }
 
-.status-subtitle{
+.status-subtitle {
   color: #ef4444;
   text-transform: uppercase;
   letter-spacing: 3px;
   font-weight: 600;
 }
 
-.status-title{
+.status-title {
   font-size: 52px;
   font-weight: 800;
   margin-top: 15px;
 }
 
-.status-card{
+.status-card {
   margin-top: 40px;
-  background: linear-gradient(
-    to bottom,
-    #111827,
-    #000
-  );
+  background: linear-gradient(to bottom, #111827, #000);
   border: 1px solid #1f1f1f;
   border-radius: 24px;
   padding: 40px 20px;
 }
 
-.status-card h2{
+.status-card h2 {
   font-size: 32px;
   font-weight: 800;
 }
 
-.status-card p{
+.status-card p {
   color: #9ca3af;
   margin-top: 10px;
 }
 
-.status-price{
+.status-price {
   margin-top: 20px;
   color: #ef4444;
   font-size: 42px;
   font-weight: 900;
 }
 
-.steps-container{
+.steps-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -62,18 +58,18 @@
   flex-wrap: wrap;
 }
 
-.step{
+.step {
   flex: 1;
   min-width: 140px;
   opacity: 0.4;
   transition: 0.3s;
 }
 
-.step.active{
+.step.active {
   opacity: 1;
 }
 
-.step-circle{
+.step-circle {
   width: 70px;
   height: 70px;
   margin: auto;
@@ -87,47 +83,63 @@
   border: 2px solid #333;
 }
 
-.step.active .step-circle{
+.step.active .step-circle {
   background: #ef4444;
   border-color: #ef4444;
 }
 
-.step p{
+.step p {
   margin-top: 14px;
   font-weight: 600;
 }
 
-.loading-text{
+.loading-text {
   text-align: center;
   padding: 120px 20px;
 }
 
-.cancel-box{
-  background:#111;
-  border:1px solid #ef4444;
-  padding:40px;
-  border-radius:24px;
-  text-align:center;
-  margin-top:40px;
+.cancel-box {
+  background: #111;
+  border: 1px solid #ef4444;
+  padding: 40px;
+  border-radius: 24px;
+  text-align: center;
+  margin-top: 40px;
 }
 
-.cancel-box h2{
-  color:#ef4444;
-  font-size:32px;
-  margin-bottom:12px;
+.status-product {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  margin-top: 20px;
 }
 
-.cancel-box p{
-  color:#9ca3af;
+.status-product-img {
+  width: 90px;
+  height: 90px;
+
+  object-fit: cover;
+
+  border-radius: 16px;
 }
 
-@media(max-width:768px){
+.cancel-box h2 {
+  color: #ef4444;
+  font-size: 32px;
+  margin-bottom: 12px;
+}
 
-  .status-title{
+.cancel-box p {
+  color: #9ca3af;
+}
+
+@media (max-width: 768px) {
+  .status-title {
     font-size: 36px;
   }
 
-  .steps-container{
+  .steps-container {
     flex-direction: column;
   }
 }

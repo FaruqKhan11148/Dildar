@@ -1,10 +1,11 @@
 const Product = require('../models/Product');
 
+// GET ALL PRODUCTS
 const getProducts = async (req, res) => {
   try {
-    const products = await Product.find()
-      .populate('shop')
-      .sort({ createdAt: -1 });
+    const products = await Product.find().sort({
+      createdAt: -1,
+    });
 
     res.json(products);
   } catch (error) {
@@ -14,9 +15,14 @@ const getProducts = async (req, res) => {
   }
 };
 
+// GET LATEST PRODUCTS
 const getLatestProducts = async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 }).limit(6);
+    const products = await Product.find()
+      .sort({
+        createdAt: -1,
+      })
+      .limit(6);
 
     res.json(products);
   } catch (error) {
@@ -26,6 +32,7 @@ const getLatestProducts = async (req, res) => {
   }
 };
 
+// CREATE PRODUCT
 const createProduct = async (req, res) => {
   try {
     const product = await Product.create(req.body);
@@ -38,25 +45,18 @@ const createProduct = async (req, res) => {
   }
 };
 
-const getProductsByShop = async (req, res) => {
-  try {
-    const products = await Product.find({
-      shop: req.params.shopId,
-    });
-
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
-
+// UPDATE PRODUCT
 const updateProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+
+      req.body,
+
+      {
+        new: true,
+      },
+    );
 
     res.json(product);
   } catch (error) {
@@ -66,6 +66,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
+// DELETE PRODUCT
 const deleteProduct = async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
@@ -80,6 +81,7 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+// GET PRODUCTS BY CATEGORY
 const getProductsByCategory = async (req, res) => {
   try {
     const products = await Product.find({
@@ -94,6 +96,7 @@ const getProductsByCategory = async (req, res) => {
   }
 };
 
+// SEARCH PRODUCTS
 const searchProducts = async (req, res) => {
   try {
     const keyword = req.query.q;
@@ -103,7 +106,9 @@ const searchProducts = async (req, res) => {
         $regex: keyword || '',
         $options: 'i',
       },
-    }).sort({ createdAt: -1 });
+    }).sort({
+      createdAt: -1,
+    });
 
     res.json(products);
   } catch (error) {
@@ -115,11 +120,16 @@ const searchProducts = async (req, res) => {
 
 module.exports = {
   getProducts,
+
   createProduct,
-  getProductsByShop,
+
   updateProduct,
+
   deleteProduct,
+
   getLatestProducts,
+
   getProductsByCategory,
+
   searchProducts,
 };
