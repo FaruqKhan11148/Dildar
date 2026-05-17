@@ -9,8 +9,9 @@ import Footer from '../components/Footer';
 
 import API from '../api/axios';
 
-// 🔥 socket connection
-const socket = io("https://dildar.onrender.com");
+const socket = io('https://dildar.onrender.com', {
+  transports: ['websocket'],
+});
 
 function OrderStatus() {
   const { id } = useParams();

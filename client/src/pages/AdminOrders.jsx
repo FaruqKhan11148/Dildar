@@ -9,7 +9,9 @@ import Footer from '../components/Footer';
 
 import { io } from 'socket.io-client';
 
-const socket = io('https://dildar.onrender.com');
+const socket = io('https://dildar.onrender.com', {
+  transports: ['websocket'],
+});
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -25,7 +27,9 @@ function AdminOrders() {
       );
     });
 
-    return () => socket.disconnect();
+    return () => {
+      socket.off('order_updated');
+    };
   }, []);
 
   const fetchOrders = async () => {
