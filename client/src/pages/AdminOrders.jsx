@@ -1,15 +1,10 @@
 import './AdminOrders.css';
 
 import { useEffect, useState } from 'react';
-
-import API from '../api/axios';
-
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-
-import { useEffect, useState } from 'react';
 import API from '../api/axios';
 import socket from '../socket';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);

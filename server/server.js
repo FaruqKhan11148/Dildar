@@ -6,32 +6,28 @@ const { Server } = require('socket.io');
 
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
-const { errorHandler } = require('./middlewares/errorMiddleware');
+const errorHandler = require('./middlewares/errorMiddleware');
 const connectDB = require('./config/db');
-const adminRoutes = require('./routes/adminRoutes');
 
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app); // 👈 important
+const server = http.createServer(app);
 
 // SOCKET SETUP
 const io = new Server(server, {
   cors: {
-    origin: '*',
-  },
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"]
+  }
 });
 
-io.on('connection', (socket) => {
-  console.log('⚡ Socket connected:', socket.id);
+app.set("io", io);
 
-  socket.on('disconnect', () => {
-    console.log('❌ Socket disconnected:', socket.id);
-  });
+// SOCKET CONNECTION
+io.on("connection", (socket) => {
+  console.log("Socket connected:", socket.id);
 });
-
-// MAKE IO ACCESSIBLE IN CONTROLLERS
-app.set('io', io);
 
 // DB
 connectDB();
@@ -43,15 +39,13 @@ app.use(express.json());
 // ROUTES
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
-// admin routes
-app.use('/api/admin', adminRoutes);
 
 // TEST
 app.get('/', (req, res) => {
-  res.send('Dildar Chicken API Running 🚀');
+  res.send('API Running 🚀');
 });
 
-// ERROR HANDLER
+// ERROR
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
