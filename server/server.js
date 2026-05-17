@@ -8,6 +8,7 @@ const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const errorHandler = require('./middlewares/errorMiddleware');
 const connectDB = require('./config/db');
+const adminRoutes = require('./routes/adminRoutes');
 
 dotenv.config();
 
@@ -17,16 +18,16 @@ const server = http.createServer(app);
 // SOCKET SETUP
 const io = new Server(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"]
-  }
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  },
 });
 
-app.set("io", io);
+app.set('io', io);
 
 // SOCKET CONNECTION
-io.on("connection", (socket) => {
-  console.log("Socket connected:", socket.id);
+io.on('connection', (socket) => {
+  console.log('Socket connected:', socket.id);
 });
 
 // DB
@@ -39,7 +40,7 @@ app.use(express.json());
 // ROUTES
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
-
+app.use('/api/admin', adminRoutes);
 // TEST
 app.get('/', (req, res) => {
   res.send('API Running 🚀');

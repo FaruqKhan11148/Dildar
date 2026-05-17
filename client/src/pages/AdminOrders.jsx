@@ -14,7 +14,7 @@ function AdminOrders() {
 
     socket.on('orderUpdated', (updatedOrder) => {
       setOrders((prev) =>
-        prev.map((o) => (o._id === updatedOrder._id ? updatedOrder : o)),
+        prev.map((o) => (o._id === updatedOrder._id ? updatedOrder : o))
       );
     });
 
@@ -30,8 +30,7 @@ function AdminOrders() {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await API.get('/orders');
-
+      const { data } = await API.get('/admin/orders');
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -40,10 +39,7 @@ function AdminOrders() {
 
   const updateStatus = async (id, status) => {
     try {
-      await API.put(`/orders/${id}/status`, { status });
-
-      // REFRESH AFTER UPDATE
-      fetchOrders();
+      await API.put(`/admin/orders/${id}/status`, { status });
     } catch (error) {
       console.log(error);
     }
@@ -54,20 +50,19 @@ function AdminOrders() {
       <Navbar />
 
       <div className="container py-5">
-        <h1 className="admin-title text-center mb-5">Admin Orders Dashboard</h1>
+        <h1 className="admin-title text-center mb-5">
+          Admin Orders Dashboard
+        </h1>
 
         {orders.length === 0 ? (
           <h3 className="text-center">No Orders Yet</h3>
         ) : (
           orders.map((order) => (
             <div key={order._id} className="admin-card">
-              {/* TOP */}
               <div className="admin-top">
                 <div>
                   <h2>{order.customerName}</h2>
-
                   <p>{order.phone}</p>
-
                   <p>{order.address}</p>
                 </div>
 
@@ -76,40 +71,21 @@ function AdminOrders() {
                 </div>
               </div>
 
-              {/* PRODUCT */}
               <div className="admin-product">
                 <img src={order.product?.image} alt={order.product?.name} />
 
                 <div>
                   <h3>{order.product?.name}</h3>
-
                   <p>Quantity: {order.quantity}</p>
-
                   <h4>₹{order.totalAmount}</h4>
-
-                  <p>Payment Screenshot:</p>
-
-                  {order.paymentScreenshot && (
-                    <div>
-                      <p>{order.paymentScreenshot}</p>
-                    </div>
-                  )}
                 </div>
               </div>
 
-              {/* PAYMENT */}
               <div className="admin-payment">
                 <p>Payment: {order.paymentMethod}</p>
               </div>
 
-              {/* ACTIONS */}
               <div className="admin-actions">
-                <button
-                  onClick={() => updateStatus(order._id, 'Pending Payment')}
-                >
-                  Pending
-                </button>
-
                 <button onClick={() => updateStatus(order._id, 'Preparing')}>
                   Preparing
                 </button>
