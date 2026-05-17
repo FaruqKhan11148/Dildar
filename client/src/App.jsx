@@ -10,8 +10,6 @@ import OrderStatus from './pages/OrderStatus';
 
 import AdminOrders from './pages/AdminOrders';
 
-import AdminDashboard from './admin/pages/AdminDashboard';
-
 function App() {
   return (
     <BrowserRouter>
