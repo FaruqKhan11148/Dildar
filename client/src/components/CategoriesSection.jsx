@@ -10,7 +10,7 @@ function CategoriesSection() {
   const categories = [
     {
       _id: 1,
-      title: 'Chicken Breast',
+      name: 'Chicken Breast',
       price: 220,
       image:
         'https://assets.tendercuts.in/product/C/H/594e4559-f6b7-417d-9aac-d0643b5711d3.jpg',
@@ -18,7 +18,7 @@ function CategoriesSection() {
 
     {
       _id: 2,
-      title: 'Chicken Wings',
+      name: 'Chicken Wings',
       price: 180,
       image:
         'https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=1200&auto=format&fit=crop',
@@ -26,7 +26,7 @@ function CategoriesSection() {
 
     {
       _id: 3,
-      title: 'Fresh Curry Cut',
+      name: 'Fresh Curry Cut',
       price: 250,
       image:
         'https://images.unsplash.com/photo-1603048297172-c92544798d5a?q=80&w=1200&auto=format&fit=crop',
@@ -69,7 +69,7 @@ function CategoriesSection() {
           {categories.map((category) => (
             <div className="col-md-4" key={category._id}>
               <CategoryCard
-                title={category.title}
+                title={category.name}
                 image={category.image}
                 price={category.price}
                 onOrder={() => handleOrderNow(category)}

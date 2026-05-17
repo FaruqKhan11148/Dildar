@@ -93,7 +93,8 @@ function Checkout() {
       };
 
       const { data } = await API.post('/orders', orderData);
-
+      console.log(data);
+      console.log(data._id);
       navigate(`/order-status/${data._id}`);
     } catch (error) {
       console.log(error);

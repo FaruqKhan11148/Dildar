@@ -49,6 +49,9 @@ const createOrder = async (req, res) => {
       paymentVerified: false,
       isPaid: false,
     });
+    
+    const io = req.app.get('io');
+    io.emit('newOrder', order);
 
     res.status(201).json(order);
   } catch (error) {
@@ -85,37 +88,35 @@ const updateOrderStatus = async (req, res) => {
     const order = await Order.findById(req.params.id);
 
     if (!order) {
-      return res.status(404).json({
-        message: 'Order not found',
-      });
+      return res.status(404).json({ message: 'Order not found' });
     }
 
     order.status = status;
 
-    // AUTO VERIFY PAYMENT
     if (status === 'Preparing') {
       order.paymentVerified = true;
       order.isPaid = true;
       order.paidAt = new Date();
     }
 
-    // CANCEL ORDER
     if (status === 'Cancelled') {
       order.cancelledAt = new Date();
     }
 
-    // DELIVERED
     if (status === 'Delivered') {
       order.deliveredAt = new Date();
     }
 
     const updatedOrder = await order.save();
 
+    // 🔥 SOCKET EMIT
+    const io = req.app.get('io');
+
+    io.emit('orderUpdated', updatedOrder);
+
     res.json(updatedOrder);
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    res.status(500).json({ message: error.message });
   }
 };
 
