@@ -12,8 +12,6 @@ import AdminOrders from './pages/AdminOrders';
 
 import AdminDashboard from './admin/pages/AdminDashboard';
 
-import AdminOrders from './admin/pages/AdminOrders';
-
 function App() {
   return (
     <BrowserRouter>
