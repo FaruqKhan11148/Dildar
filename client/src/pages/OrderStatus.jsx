@@ -2,16 +2,11 @@ import './OrderStatus.css';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { io } from 'socket.io-client';
 
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 import API from '../api/axios';
-
-const socket = io('https://dildar.onrender.com', {
-  transports: ['websocket'],
-});
 
 function OrderStatus() {
   const { id } = useParams();
@@ -25,19 +20,12 @@ function OrderStatus() {
   useEffect(() => {
     fetchOrder();
 
-    // join room for this order
-    socket.emit('join_order_room', id);
+    // AUTO REFRESH EVERY 30 SECONDS
+    const interval = setInterval(() => {
+      fetchOrder();
+    }, 30000);
 
-    // listen for updates
-    socket.on('order_updated', (updatedOrder) => {
-      if (updatedOrder._id === id) {
-        setOrder(updatedOrder);
-      }
-    });
-
-    return () => {
-      socket.off('order_updated');
-    };
+    return () => clearInterval(interval);
   }, [id]);
 
   const fetchOrder = async () => {

@@ -20,19 +20,12 @@ const createOrder = async (req, res) => {
   try {
     const {
       customerName,
-
       phone,
-
       address,
-
       product,
-
       quantity,
-
       totalAmount,
-
       paymentScreenshot,
-
       paymentMethod,
     } = req.body;
 
@@ -45,22 +38,16 @@ const createOrder = async (req, res) => {
 
     const order = await Order.create({
       customerName,
-
       phone,
-
       address,
-
       product,
-
       quantity,
-
       totalAmount,
-
       paymentScreenshot,
-
       paymentMethod,
-
       status: 'Pending Payment',
+      paymentVerified: false,
+      isPaid: false,
     });
 
     res.status(201).json(order);
@@ -93,6 +80,8 @@ const getSingleOrder = async (req, res) => {
 // UPDATE ORDER STATUS
 const updateOrderStatus = async (req, res) => {
   try {
+    const { status } = req.body;
+
     const order = await Order.findById(req.params.id);
 
     if (!order) {
@@ -101,23 +90,26 @@ const updateOrderStatus = async (req, res) => {
       });
     }
 
-    order.status = req.body.status;
+    order.status = status;
 
-    // AUTO PAYMENT VERIFY
-    if (req.body.status === 'Preparing') {
+    // AUTO VERIFY PAYMENT
+    if (status === 'Preparing') {
       order.paymentVerified = true;
-
       order.isPaid = true;
-
       order.paidAt = new Date();
     }
 
+    // CANCEL ORDER
+    if (status === 'Cancelled') {
+      order.cancelledAt = new Date();
+    }
+
+    // DELIVERED
+    if (status === 'Delivered') {
+      order.deliveredAt = new Date();
+    }
+
     const updatedOrder = await order.save();
-
-    // SOCKET UPDATE
-    const io = req.app.get('io');
-
-    io.emit('order_updated', updatedOrder);
 
     res.json(updatedOrder);
   } catch (error) {
@@ -129,10 +121,7 @@ const updateOrderStatus = async (req, res) => {
 
 module.exports = {
   getOrders,
-
   createOrder,
-
   getSingleOrder,
-
   updateOrderStatus,
 };
