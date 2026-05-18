@@ -24,7 +24,7 @@ function Footer() {
           {/* BRAND */}
           <div className="footer-box">
             <h2 className="footer-logo">
-              <span>Dildar</span>
+              <span>Chicken</span>
               <span className="text-red">Chicken</span>
             </h2>
 
@@ -100,7 +100,7 @@ function Footer() {
 
         {/* BOTTOM */}
         <div className="footer-bottom">
-          <p>© 2026 Dildar Chicken. All rights reserved.</p>
+          <p>© 2026 ---- Chicken. All rights reserved.</p>
 
           <button
             className="scroll-top"

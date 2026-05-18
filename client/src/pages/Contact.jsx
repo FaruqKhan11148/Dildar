@@ -33,7 +33,7 @@ function Contact() {
             <p className="contact-subtitle">Get In Touch</p>
 
             <h1 className="contact-title">
-              Contact <span>Dildar Chicken</span>
+              Contact <span>____ Chicken</span>
             </h1>
 
             <p className="contact-desc">
@@ -94,7 +94,7 @@ function Contact() {
 
                     <div>
                       <h2>Instagram</h2>
-                      <p>@dildarchicken</p>
+                      <p>@____chicken</p>
                     </div>
                   </div>
                 </a>

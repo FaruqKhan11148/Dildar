@@ -41,6 +41,7 @@ app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
+
 // TEST
 app.get('/', (req, res) => {
   res.send('API Running 🚀');
