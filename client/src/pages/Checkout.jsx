@@ -22,8 +22,6 @@ function Checkout() {
 
   const [loading, setLoading] = useState(false);
 
-  const [paymentScreenshot, setPaymentScreenshot] = useState('');
-
   const [formData, setFormData] = useState({
     customerName: '',
     phone: '',
@@ -48,11 +46,16 @@ function Checkout() {
       setQuantity((prev) => prev - 1);
     }
   };
-
-  const placeOrder = async () => {
+  // =========================
+  // PAYMENT
+  // =========================
+  const handlePayment = async () => {
     try {
       setLoading(true);
 
+      // =========================
+      // VALIDATION
+      // =========================
       if (!formData.customerName || !formData.phone || !formData.address) {
         alert('Please fill all details');
 
@@ -61,50 +64,129 @@ function Checkout() {
         return;
       }
 
-      if (!paymentScreenshot) {
-        alert('Please add payment screenshot');
+      // =========================
+      // CREATE RAZORPAY ORDER
+      // =========================
+      const { data } = await API.post('/payment/create-order', {
+        amount: totalPrice,
+      });
 
-        setLoading(false);
+      // =========================
+      // RAZORPAY OPTIONS
+      // =========================
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY,
 
-        return;
-      }
+        amount: data.amount,
 
-      const orderData = {
-        customerName: formData.customerName,
+        currency: data.currency,
 
-        phone: formData.phone,
+        name: 'Faruq Chicken Shop',
 
-        address: formData.address,
+        description: 'Chicken Order Payment',
 
-        product: {
-          productId: product._id,
-          name: product.name,
-          image: product.image,
-          price: product.price,
+        image: 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',
+
+        order_id: data.id,
+
+        handler: async function (response) {
+          try {
+            const verifyData = {
+              razorpay_order_id: response.razorpay_order_id,
+
+              razorpay_payment_id: response.razorpay_payment_id,
+
+              razorpay_signature: response.razorpay_signature,
+
+              customerName: formData.customerName,
+
+              phone: formData.phone,
+
+              address: formData.address,
+
+              product: {
+                productId: product._id,
+
+                name: product.name,
+
+                image: product.image,
+
+                price: product.price,
+              },
+
+              quantity,
+
+              totalAmount: totalPrice,
+            };
+
+            const verifyRes = await API.post(
+              '/payment/verify-payment',
+              verifyData,
+            );
+
+            navigate(`/order-status/${verifyRes.data._id}`);
+          } catch (error) {
+            console.log(error);
+
+            alert('Payment Verification Failed');
+          }
         },
 
-        quantity,
+        prefill: {
+          name: formData.customerName,
 
-        totalAmount: totalPrice,
+          contact: formData.phone,
+        },
 
-        paymentScreenshot: paymentScreenshot?.name || '',
+        theme: {
+          color: '#f59e0b',
+        },
 
-        paymentMethod: 'PhonePe QR',
+        method: {
+          upi: true,
+          card: true,
+          netbanking: true,
+          wallet: true,
+        },
+
+        config: {
+          display: {
+            blocks: {
+              upi: {
+                name: 'Pay Using UPI',
+
+                instruments: [
+                  {
+                    method: 'upi',
+                  },
+                ],
+              },
+            },
+
+            sequence: ['block.upi'],
+
+            preferences: {
+              show_default_blocks: true,
+            },
+          },
+        },
       };
 
-      const { data } = await API.post('/orders', orderData);
-      console.log(data);
-      console.log(data._id);
-      navigate(`/order-status/${data._id}`);
+      // =========================
+      // OPEN RAZORPAY
+      // =========================
+      const rzp = new window.Razorpay(options);
+
+      rzp.open();
     } catch (error) {
       console.log(error);
 
-      alert('Order Failed');
+      alert('Payment Failed');
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="checkout-page">
       <Navbar />
@@ -177,22 +259,9 @@ function Checkout() {
 
         {/* PAYMENT */}
         <div className="payment-box">
-          <h2>Pay Using PhonePe QR</h2>
+          <h2>Secure UPI Payment</h2>
 
-          <img
-            src="https://i.ibb.co/8gZ1G6F/qr-demo.png"
-            alt="QR Code"
-            className="qr-image"
-          />
-
-          <p>Scan QR and complete payment</p>
-          <h2>OR</h2>
-          <h5>Pay : +91 6363120602</h5>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setPaymentScreenshot(e.target.files[0])}
-          />
+          <p>Pay securely using PhonePe, GPay, Paytm or any UPI app.</p>
         </div>
 
         {/* SUMMARY */}
@@ -209,8 +278,8 @@ function Checkout() {
 
           <h3>Total: ₹{totalPrice}</h3>
 
-          <button onClick={placeOrder} disabled={loading}>
-            {loading ? 'Placing Order...' : 'Place Order'}
+          <button onClick={handlePayment} disabled={loading}>
+            {loading ? 'Processing...' : `Pay ₹${totalPrice}`}
           </button>
         </div>
       </div>

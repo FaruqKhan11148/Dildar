@@ -9,6 +9,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const errorHandler = require('./middlewares/errorMiddleware');
 const connectDB = require('./config/db');
 const adminRoutes = require('./routes/adminRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 dotenv.config();
 
@@ -38,9 +39,11 @@ app.use(cors());
 app.use(express.json());
 
 // ROUTES
+// app.use('/api', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // TEST
 app.get('/', (req, res) => {

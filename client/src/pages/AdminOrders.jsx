@@ -14,7 +14,7 @@ function AdminOrders() {
 
     socket.on('orderUpdated', (updatedOrder) => {
       setOrders((prev) =>
-        prev.map((o) => (o._id === updatedOrder._id ? updatedOrder : o))
+        prev.map((o) => (o._id === updatedOrder._id ? updatedOrder : o)),
       );
     });
 
@@ -30,16 +30,84 @@ function AdminOrders() {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await API.get('/admin/orders');
+      const token = localStorage.getItem('adminToken');
+
+      const { data } = await API.get('/admin/orders', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       setOrders(data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  // =========================
+  // ORDER STATUS UPDATE
+  // =========================
   const updateStatus = async (id, status) => {
     try {
-      await API.put(`/admin/orders/${id}/status`, { status });
+      const token = localStorage.getItem('adminToken');
+
+      await API.put(
+        `/admin/orders/${id}/status`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // =========================
+  // PAYMENT VERIFICATION
+  // =========================
+  const verifyPayment = async (id) => {
+    try {
+      const token = localStorage.getItem('adminToken');
+
+      await API.put(
+        `/admin/orders/${id}/status`,
+        {
+          status: 'Preparing',
+          paymentStatus: 'Verified',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // =========================
+  // PAYMENT REJECT
+  // =========================
+  const rejectPayment = async (id) => {
+    try {
+      const token = localStorage.getItem('adminToken');
+
+      await API.put(
+        `/admin/orders/${id}/status`,
+        {
+          status: 'Cancelled',
+          paymentStatus: 'Rejected',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
     } catch (error) {
       console.log(error);
     }
@@ -59,6 +127,10 @@ function AdminOrders() {
         ) : (
           orders.map((order) => (
             <div key={order._id} className="admin-card">
+
+              {/* ========================= */}
+              {/* TOP */}
+              {/* ========================= */}
               <div className="admin-top">
                 <div>
                   <h2>{order.customerName}</h2>
@@ -71,8 +143,14 @@ function AdminOrders() {
                 </div>
               </div>
 
+              {/* ========================= */}
+              {/* PRODUCT */}
+              {/* ========================= */}
               <div className="admin-product">
-                <img src={order.product?.image} alt={order.product?.name} />
+                <img
+                  src={order.product?.image}
+                  alt={order.product?.name}
+                />
 
                 <div>
                   <h3>{order.product?.name}</h3>
@@ -81,26 +159,88 @@ function AdminOrders() {
                 </div>
               </div>
 
+              {/* ========================= */}
+              {/* PAYMENT */}
+              {/* ========================= */}
               <div className="admin-payment">
-                <p>Payment: {order.paymentMethod}</p>
+                <p>Payment Method: {order.paymentMethod}</p>
+
+                <p>
+                  Payment Status:
+                  {' '}
+                  {order.paymentStatus || 'Pending'}
+                </p>
+
+                {/* SCREENSHOT */}
+                {order.paymentScreenshot && (
+                  <a
+                    href={order.paymentScreenshot}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="payment-proof-btn"
+                  >
+                    View Payment Screenshot
+                  </a>
+                )}
               </div>
 
+              {/* ========================= */}
+              {/* ACTIONS */}
+              {/* ========================= */}
               <div className="admin-actions">
-                <button onClick={() => updateStatus(order._id, 'Preparing')}>
-                  Preparing
-                </button>
 
-                <button onClick={() => updateStatus(order._id, 'On The Way')}>
-                  On The Way
-                </button>
+                {/* PAYMENT VERIFICATION */}
+                {order.paymentStatus !== 'Verified' &&
+                  order.status !== 'Cancelled' && (
+                    <>
+                      <button
+                        onClick={() => verifyPayment(order._id)}
+                      >
+                        Verify Payment
+                      </button>
 
-                <button onClick={() => updateStatus(order._id, 'Delivered')}>
-                  Delivered
-                </button>
+                      <button
+                        onClick={() => rejectPayment(order._id)}
+                      >
+                        Reject Payment
+                      </button>
+                    </>
+                  )}
 
-                <button onClick={() => updateStatus(order._id, 'Cancelled')}>
-                  Cancel
-                </button>
+                {/* ON THE WAY */}
+                {order.paymentStatus === 'Verified' &&
+                  order.status === 'Preparing' && (
+                    <button
+                      onClick={() =>
+                        updateStatus(order._id, 'On The Way')
+                      }
+                    >
+                      On The Way
+                    </button>
+                  )}
+
+                {/* DELIVERED */}
+                {order.status === 'On The Way' && (
+                  <button
+                    onClick={() =>
+                      updateStatus(order._id, 'Delivered')
+                    }
+                  >
+                    Delivered
+                  </button>
+                )}
+
+                {/* CANCEL */}
+                {order.status !== 'Delivered' &&
+                  order.status !== 'Cancelled' && (
+                    <button
+                      onClick={() =>
+                        updateStatus(order._id, 'Cancelled')
+                      }
+                    >
+                      Cancel
+                    </button>
+                  )}
               </div>
             </div>
           ))
