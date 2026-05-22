@@ -40,29 +40,26 @@ function OrderStatus() {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on('connect', () => {
+    const handleConnect = () => {
       console.log('Socket connected:', socket.id);
-    });
+    };
 
-    socket.on('orderUpdated', (updatedOrder) => {
-      if (updatedOrder?._id?.toString() === id) {
+    const handleOrderUpdate = (updatedOrder) => {
+      if (updatedOrder?._id === id) {
         setOrder(updatedOrder);
       }
-    });
+    };
+
+    socket.on('connect', handleConnect);
+    socket.on('orderUpdated', handleOrderUpdate);
 
     return () => {
-      socket.off('orderUpdated');
-      socket.off('connect');
+      socket.off('connect', handleConnect);
+      socket.off('orderUpdated', handleOrderUpdate);
     };
   }, [id]);
 
-  const steps = [
-    'Pending Payment',
-    'Payment Verification',
-    'Preparing',
-    'On The Way',
-    'Delivered',
-  ];
+  const steps = ['Pending Payment', 'Preparing', 'On The Way', 'Delivered'];
 
   const currentStep = order ? steps.indexOf(order.status) : 0;
   const isCancelled = order?.status === 'Cancelled';
@@ -102,9 +99,7 @@ function OrderStatus() {
 
               <div className="payment-status">
                 <p>Payment Method: {order.paymentMethod}</p>
-                <p>
-                  Payment Status: {order.isPaid ? 'Paid' : 'Pending'}
-                </p>
+                <p>Payment Status: {order.isPaid ? 'Paid' : 'Pending'}</p>
               </div>
             </div>
 
@@ -118,9 +113,7 @@ function OrderStatus() {
                 {steps.map((step, index) => (
                   <div
                     key={index}
-                    className={`step ${
-                      index <= currentStep ? 'active' : ''
-                    }`}
+                    className={`step ${index <= currentStep ? 'active' : ''}`}
                   >
                     <div className="step-circle">{index + 1}</div>
                     <p>{step}</p>

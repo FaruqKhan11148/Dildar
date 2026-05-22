@@ -17,3 +17,21 @@ body{
 html{
   scroll-behavior: smooth;
 }
+
+.leaflet-bottom.leaflet-right {
+  bottom: 20px !important;
+  right: 10px !important;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+}
+
+.leaflet-control-zoom a {
+  background: #111 !important;
+  color: white !important;
+  width: 38px !important;
+  height: 38px !important;
+  line-height: 38px !important;
+  font-size: 20px !important;
+}

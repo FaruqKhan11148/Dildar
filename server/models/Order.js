@@ -2,106 +2,46 @@ const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema(
   {
-    customerName: {
-      type: String,
-      required: true,
-      trim: true,
+    customerName: String,
+
+    phone: String,
+
+    address: String,
+
+    location: {
+      lat: Number,
+      lng: Number,
     },
 
-    phone: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    address: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    // SINGLE PRODUCT
     product: {
-      productId: {
-        type: mongoose.Schema.Types.ObjectId,
-
-        ref: 'Product',
-      },
-
-      name: {
-        type: String,
-        required: true,
-      },
-
-      image: {
-        type: String,
-      },
-
-      price: {
-        type: Number,
-        required: true,
-      },
+      productId: String,
+      name: String,
+      image: String,
+      price: Number,
     },
 
-    quantity: {
-      type: Number,
-      required: true,
-      min: 1,
-    },
+    quantity: Number,
+    totalAmount: Number,
 
-    totalAmount: {
-      type: Number,
-      required: true,
-    },
+    paymentMethod: String,
+    paymentStatus: String,
+
+    paymentVerified: Boolean,
+    isPaid: Boolean,
+
+    razorpay_order_id: String,
+    razorpay_payment_id: String,
 
     status: {
       type: String,
-
-      enum: [
-        'Pending Payment',
-
-        'Preparing',
-
-        'On The Way',
-
-        'Delivered',
-
-        'Cancelled',
-      ],
-
       default: 'Pending Payment',
     },
 
-    paymentMethod: {
-      type: String,
-
-      default: 'PhonePe QR',
-    },
-
-    paymentScreenshot: {
-      type: String,
-    },
-
-    isPaid: {
-      type: Boolean,
-
-      default: false,
-    },
-
-    paymentVerified: {
-      type: Boolean,
-
-      default: false,
-    },
-
-    paidAt: {
-      type: Date,
-    },
+    paidAt: Date,
+    cancelledAt: Date,
+    deliveredAt: Date,
   },
-
-  {
-    timestamps: true,
-  },
+  { timestamps: true }
 );
 
 module.exports = mongoose.model('Order', orderSchema);

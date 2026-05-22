@@ -37,7 +37,7 @@ connectDB();
 // MIDDLEWARE
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // ROUTES
 // app.use('/api', authRoutes);
 app.use('/api/products', productRoutes);

@@ -134,3 +134,12 @@
 
   cursor: pointer;
 }
+
+.leaflet-container {
+  z-index: 1;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 400 !important;
+}
