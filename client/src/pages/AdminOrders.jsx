@@ -109,12 +109,10 @@ function AdminOrders() {
           <h3 className="text-center">No Orders Yet</h3>
         ) : (
           orders
-            .filter((order) => order.status !== 'Delivered')
+            .filter((order) => order.status !== 'Delivered' && order.refundStatus !== 'Refunded')
             .map((order) => (
               <div key={order._id} className="admin-card">
-              {/* ========================= */}
               {/* TOP */}
-              {/* ========================= */}
               <div className="admin-top">
                 <div>
                   <h2>{order.customerName}</h2>
