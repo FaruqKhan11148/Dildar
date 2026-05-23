@@ -40,8 +40,31 @@ const orderSchema = new mongoose.Schema(
     paidAt: Date,
     cancelledAt: Date,
     deliveredAt: Date,
+
+    // =========================
+    // REFUND
+    // =========================
+    refundStatus: {
+      type: String,
+      default: 'Not Refunded',
+    },
+
+    refundAmount: {
+      type: Number,
+      default: 0,
+    },
+
+    refundMethod: {
+      type: String,
+      default: '',
+    },
+
+    isRefunded: {
+      type: Boolean,
+      default: false,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model('Order', orderSchema);

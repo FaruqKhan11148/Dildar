@@ -9,6 +9,7 @@ console.log("🔥 ADMIN ROUTES LOADED");
 const {
   getOrders,
   updateOrderStatus,
+  markRefunded,
 } = require('../controllers/orderController');
 
 const {
@@ -25,7 +26,7 @@ router.post('/login', adminLogin);
 // =====================
 router.get('/orders', adminAuth, getOrders);
 router.put('/orders/:id/status', adminAuth, updateOrderStatus);
-
+router.put('/orders/:id/refund', adminAuth, markRefunded);
 
 // =====================
 // PRODUCTS (ADMIN)

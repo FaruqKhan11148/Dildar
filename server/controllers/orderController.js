@@ -120,9 +120,44 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
+// MARK REFUND
+const markRefunded = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({
+        message: 'Order not found',
+      });
+    }
+
+    order.isRefunded = true;
+
+    order.refundStatus = 'Refunded';
+
+    order.refundAmount = order.totalAmount;
+
+    order.refundMethod = 'Manual Payback';
+
+    const updatedOrder = await order.save();
+
+    // SOCKET UPDATE
+    const io = req.app.get('io');
+
+    io.emit('orderUpdated', updatedOrder);
+
+    res.json(updatedOrder);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getOrders,
   createOrder,
   getSingleOrder,
   updateOrderStatus,
+  markRefunded,
 };
