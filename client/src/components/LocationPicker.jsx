@@ -61,21 +61,17 @@ export default function LocationPicker({ setLocation }) {
         };
 
         setCurrentPosition([userLocation.lat, userLocation.lng]);
-
         setLocation(userLocation);
       },
-
       (error) => {
         console.log(error);
-
         alert('Location permission denied. Please select manually.');
       },
-
       {
         enableHighAccuracy: true,
-      },
+      }
     );
-  }, [setLocation]);
+  }, []);
 
   // =========================
   // MANUAL CURRENT LOCATION BUTTON
