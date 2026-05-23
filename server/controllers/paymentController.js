@@ -212,3 +212,76 @@ exports.verifyPayment = async (req, res) => {
     });
   }
 };
+
+// REAL RAZORPAY REFUND
+exports.processRefund = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({
+        message: 'Order not found',
+      });
+    }
+
+    // already refunded
+    if (order.isRefunded) {
+      return res.status(400).json({
+        message: 'Already refunded',
+      });
+    }
+
+    // payment id missing
+    if (!order.razorpay_payment_id) {
+      return res.status(400).json({
+        message: 'No Razorpay payment found',
+      });
+    }
+
+    // =========================
+    // RAZORPAY REFUND
+    // =========================
+    const refund = await razorpay.payments.refund(
+      order.razorpay_payment_id,
+      {
+        amount: order.totalAmount * 100,
+      },
+    );
+
+    // =========================
+    // SAVE IN DB
+    // =========================
+    order.isRefunded = true;
+
+    order.refundStatus = 'Refunded';
+
+    order.refundAmount = order.totalAmount;
+
+    order.refundMethod = 'Razorpay';
+
+    order.refundId = refund.id;
+
+    order.refundProcessedAt = new Date();
+
+    const updatedOrder = await order.save();
+
+    // SOCKET
+    const io = req.app.get('io');
+
+    io.emit('orderUpdated', updatedOrder);
+
+    res.json({
+      success: true,
+      message: 'Refund processed successfully',
+      refund,
+      order: updatedOrder,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

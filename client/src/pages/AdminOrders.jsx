@@ -73,27 +73,30 @@ function AdminOrders() {
 
   // Refund
   const markAsRefunded = async (id) => {
-  try {
-    const token = localStorage.getItem('adminToken');
+    try {
+      const token = localStorage.getItem('adminToken');
 
-    await API.put(
-      `/admin/orders/${id}/refund`,
-      {
-        isRefunded: true,
-        refundStatus: 'Refunded',
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const { data } = await API.put(
+        `/payment/refund/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      },
-    );
+      );
 
-    fetchOrders();
-  } catch (error) {
-    console.log(error);
-  }
-};
+      console.log('✅ REFUND SUCCESS:', data);
+
+      fetchOrders();
+    } catch (error) {
+      console.log('❌ REFUND ERROR:', error);
+
+      alert(
+        error?.response?.data?.message || 'Refund failed',
+      );
+    }
+  };
 
   return (
     <div className="admin-page">

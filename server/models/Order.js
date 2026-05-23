@@ -63,6 +63,13 @@ const orderSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    refundId: {
+      type: String,
+      default: '',
+    },
+
+    refundProcessedAt: Date,
   },
   { timestamps: true },
 );
