@@ -1,68 +1,133 @@
 .status-page {
   min-height: 100vh;
-  background: black;
+  background: radial-gradient(circle at top, #111 0%, #000 60%);
   color: white;
 }
 
+/* =========================
+   MAIN WRAPPER
+========================= */
 .status-container {
-  max-width: 900px;
+  max-width: 920px;
   margin: auto;
-  padding: 80px 20px;
+  padding: 90px 20px;
   text-align: center;
 }
 
+/* =========================
+   HEADER TEXT
+========================= */
 .status-subtitle {
   color: #ef4444;
   text-transform: uppercase;
-  letter-spacing: 3px;
-  font-weight: 600;
+  letter-spacing: 4px;
+  font-weight: 700;
+  font-size: 12px;
 }
 
 .status-title {
-  font-size: 52px;
-  font-weight: 800;
-  margin-top: 15px;
+  font-size: 54px;
+  font-weight: 900;
+  margin-top: 12px;
+  background: linear-gradient(90deg, #fff, #aaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+/* =========================
+   CARD (GLASS EFFECT)
+========================= */
 .status-card {
   margin-top: 40px;
-  background: linear-gradient(to bottom, #111827, #000);
-  border: 1px solid #1f1f1f;
-  border-radius: 24px;
-  padding: 40px 20px;
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  padding: 35px 25px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  transition: 0.3s;
 }
 
+.status-card:hover {
+  transform: translateY(-3px);
+}
+
+/* =========================
+   TEXT INSIDE CARD
+========================= */
 .status-card h2 {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 800;
 }
 
 .status-card p {
   color: #9ca3af;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
+/* =========================
+   PRICE
+========================= */
 .status-price {
-  margin-top: 20px;
+  margin-top: 18px;
   color: #ef4444;
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 900;
 }
 
+/* =========================
+   PRODUCT SECTION
+========================= */
+.status-product {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 22px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 18px;
+}
+
+.status-product-img {
+  width: 95px;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid #222;
+}
+
+/* =========================
+   STEPS (UPGRADED)
+========================= */
 .steps-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 60px;
+  align-items: flex-start;
+  margin-top: 70px;
+  position: relative;
   gap: 20px;
-  flex-wrap: wrap;
+}
+
+/* LINE */
+.steps-container::before {
+  content: '';
+  position: absolute;
+  top: 35px;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: #222;
+  z-index: 0;
+  border-radius: 10px;
 }
 
 .step {
   flex: 1;
-  min-width: 140px;
+  min-width: 120px;
   opacity: 0.4;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  z-index: 1;
+  position: relative;
 }
 
 .step.active {
@@ -70,76 +135,89 @@
 }
 
 .step-circle {
-  width: 70px;
-  height: 70px;
+  width: 72px;
+  height: 72px;
   margin: auto;
   border-radius: 50%;
-  background: #1f1f1f;
+  background: #111;
+  border: 2px solid #333;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  font-weight: 800;
-  border: 2px solid #333;
+  font-size: 22px;
+  font-weight: 900;
+  transition: 0.3s;
 }
 
+/* ACTIVE STEP */
 .step.active .step-circle {
-  background: #ef4444;
-  border-color: #ef4444;
+  background: linear-gradient(135deg, #ef4444, #ff6b6b);
+  border-color: transparent;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+  transform: scale(1.1);
 }
 
 .step p {
-  margin-top: 14px;
+  margin-top: 12px;
   font-weight: 600;
+  font-size: 14px;
+  color: #ccc;
 }
 
+/* =========================
+   LOADING
+========================= */
 .loading-text {
   text-align: center;
   padding: 120px 20px;
+  font-size: 20px;
+  color: #aaa;
 }
 
+/* =========================
+   CANCEL BOX (UPGRADED)
+========================= */
 .cancel-box {
-  background: #111;
-  border: 1px solid #ef4444;
-  padding: 40px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  padding: 35px;
   border-radius: 24px;
   text-align: center;
   margin-top: 40px;
-}
-
-.status-product {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-
-  margin-top: 20px;
-}
-
-.status-product-img {
-  width: 90px;
-  height: 90px;
-
-  object-fit: cover;
-
-  border-radius: 16px;
+  backdrop-filter: blur(10px);
 }
 
 .cancel-box h2 {
   color: #ef4444;
   font-size: 32px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .cancel-box p {
   color: #9ca3af;
 }
 
+/* =========================
+   PRODUCT TEXT
+========================= */
+.cancel-box strong {
+  color: white;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 768px) {
   .status-title {
-    font-size: 36px;
+    font-size: 34px;
   }
 
   .steps-container {
     flex-direction: column;
+    align-items: center;
+  }
+
+  .steps-container::before {
+    display: none;
   }
 }
