@@ -106,20 +106,56 @@ function OrderStatus() {
             {isCancelled ? (
               <div className="cancel-box">
                 <h2>❌ Order Cancelled</h2>
-                <p>Refund will be processed soon.</p>
+
+                <p>Refund Status: {order.refundStatus || 'Not Processed'}</p>
+                <p>Refund Amount: ₹{order.refundAmount || 0}</p>
+                <p>Refund Method: {order.refundMethod || 'N/A'}</p>
+
+                <p style={{ marginTop: '10px', color: '#aaa' }}>
+                  If paid online, refund will be credited to original payment source within 3–5 working days.
+                </p>
               </div>
             ) : (
-              <div className="steps-container">
-                {steps.map((step, index) => (
-                  <div
-                    key={index}
-                    className={`step ${index <= currentStep ? 'active' : ''}`}
-                  >
-                    <div className="step-circle">{index + 1}</div>
-                    <p>{step}</p>
-                  </div>
-                ))}
-              </div>
+              <>
+                <div className="steps-container">
+                  {steps.map((step, index) => (
+                    <div
+                      key={index}
+                      className={`step ${index <= currentStep ? 'active' : ''}`}
+                    >
+                      <div className="step-circle">{index + 1}</div>
+                      <p>{step}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* 🔥 EXTRA INFO CARD */}
+                <div className="extra-info-card">
+                  <h3>📦 Order Details</h3>
+
+                  <p><strong>Order ID:</strong> {order._id}</p>
+                  <p><strong>Payment Method:</strong> {order.paymentMethod}</p>
+                  <p>
+                    <strong>Payment Status:</strong>{' '}
+                    {order.isPaid ? 'Paid ✅' : 'Pending ❌'}
+                  </p>
+
+                  <p><strong>Total Amount:</strong> ₹{order.totalAmount}</p>
+
+                  <p>
+                    <strong>Order Date:</strong>{' '}
+                    {new Date(order.createdAt).toLocaleString()}
+                  </p>
+
+                  {order.isRefunded && (
+                    <div style={{ marginTop: '10px', color: 'lightgreen' }}>
+                      <strong>Refund Completed ✅</strong>
+                      <p>Amount: ₹{order.refundAmount}</p>
+                      <p>Method: {order.refundMethod}</p>
+                    </div>
+                  )}
+                </div>
+              </>
             )}
           </>
         )}
