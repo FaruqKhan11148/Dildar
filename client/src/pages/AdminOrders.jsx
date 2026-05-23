@@ -302,8 +302,10 @@ function AdminOrders() {
         {orders.length === 0 ? (
           <h3 className="text-center">No Orders Yet</h3>
         ) : (
-          orders.map((order) => (
-            <div key={order._id} className="admin-card">
+          orders
+            .filter((order) => order.status !== 'Delivered')
+            .map((order) => (
+              <div key={order._id} className="admin-card">
               {/* ========================= */}
               {/* TOP */}
               {/* ========================= */}
@@ -370,30 +372,7 @@ function AdminOrders() {
                     src={`https://maps.google.com/maps?q=${order.location.lat},${order.location.lng}&z=17&output=embed`}
                   ></iframe>
 
-                  {/* COORDINATES */}
-                  <div className="location-coords">
-                    <p>
-                      <strong>Latitude:</strong> {order.location.lat}
-                    </p>
-
-                    <p>
-                      <strong>Longitude:</strong> {order.location.lng}
-                    </p>
-                  </div>
-
                   {/* ROUTE BUTTON */}
-                  {/* <a
-                    href={`https://www.google.com/maps/dir/${14.621866},${75.628707}/${order.location.lat},${order.location.lng}`}
-                    className="route-btn"
-                  >
-                    🚚 Open Fastest Route
-                  </a> */}
-                  {/* <a
-                    href={`https://www.google.com/maps/dir/${14.621866},${75.628707}/${order.location.lat},${order.location.lng}`}
-                    className="route-btn"
-                  >
-                    🚚 Open Fastest Route
-                  </a> */}
                   <a
                     href={`https://www.google.com/maps/dir/${14.621866},${75.628707}/${order.location.lat},${order.location.lng}`}
                     target="_blank"
