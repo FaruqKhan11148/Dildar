@@ -257,7 +257,15 @@ function AdminOrders() {
 
                       {!order.isRefunded && (
                         <button
-                          onClick={() => markAsRefunded(order._id)}
+                          onClick={() => {
+                            const confirmRefund = window.confirm(
+                              'Are you sure you want to refund this order? This action cannot be undone.'
+                            );
+
+                            if (!confirmRefund) return;
+
+                            markAsRefunded(order._id);
+                          }}
                           style={{ marginTop: '10px' }}
                         >
                           Pay Back
