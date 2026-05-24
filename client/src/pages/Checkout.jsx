@@ -62,7 +62,7 @@ function Checkout() {
         currency: data.currency,
         order_id: data.id,
 
-        name: 'Faruq Chicken Shop',
+        name: 'Chicken Shop',
         description: 'Fresh Chicken Order',
         image: 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',
 
