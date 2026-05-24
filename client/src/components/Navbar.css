@@ -1,122 +1,204 @@
-/* =========================
-   BASE NAVBAR
-========================= */
-
 .navbar-custom {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #1f1f1f;
-  padding: 14px 16px;
-  /* border-bottom: 2px solid white; */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-/* container */
 .navbar-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 14px 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 /* LOGO */
 .navbar-logo {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   color: white;
+  text-decoration: none;
 }
 
 .navbar-logo span {
   color: #ef4444;
 }
 
-/* HAMBURGER ICON */
-.menu-icon {
+.close-icon {
+  align-self: flex-end;
   font-size: 22px;
   color: white;
   cursor: pointer;
-  display: block;
-  z-index: 1000;
-  margin-right: 10px;
+
+  margin-bottom: 10px;
+  transition: 0.2s;
 }
 
-/* LINKS (MOBILE DEFAULT HIDDEN) */
-.navbar-links {
-  position: absolute;
-  top: 60px;
-  right: 0;
-  background: #0a0a0a;
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 20px;
-  border-left: 1px solid #1f1f1f;
-
-  transform: translateX(100%);
-  transition: 0.3s ease;
-}
-
-/* ACTIVE MENU */
-.navbar-links.active {
-  transform: translateX(0);
+.close-icon:hover {
+  color: #ef4444;
+  transform: scale(1.1);
 }
 
 /* LINKS */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
 .navbar-links a {
+  color: #ddd;
   text-decoration: none;
-  color: white;
-  font-size: 16px;
-  padding: 8px;
-  border-radius: 8px;
+  font-weight: 500;
   transition: 0.3s;
 }
 
-/* HOVER */
 .navbar-links a:hover {
+  color: #ef4444;
+}
+
+/* USER BADGE */
+.user-badge {
+  color: #9ca3af;
+  font-size: 14px;
+  padding: 6px 10px;
+  border: 1px solid #333;
+  border-radius: 20px;
+}
+
+/* BUTTONS BASE */
+.admin-btn,
+.user-login-btn,
+.user-logout-btn,
+.admin-logout-btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+/* USER LOGIN */
+.user-login-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.user-login-btn:hover {
+  background: #1d4ed8;
+}
+
+/* USER LOGOUT */
+.user-logout-btn {
+  background: #374151;
+  color: white;
+}
+
+.user-logout-btn:hover {
+  background: #4b5563;
+}
+
+/* ADMIN BUTTON */
+.admin-btn {
   background: #ef4444;
   color: white;
 }
 
-/* =========================
-   TABLET & DESKTOP
-========================= */
+.admin-btn:hover {
+  background: #dc2626;
+}
 
-@media (min-width: 768px) {
+/* ADMIN LOGOUT */
+.admin-logout-btn {
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+}
+
+.admin-logout-btn:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* MOBILE */
+.menu-icon {
+  display: none;
+  font-size: 22px;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
   .menu-icon {
-    display: none;
+    display: block;
   }
 
   .navbar-links {
-    position: static;
-    flex-direction: row;
-    background: transparent;
-    transform: none;
-    width: auto;
-    padding: 0;
-    border: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    height: 100vh;
+    width: 280px;
+
+    background: #0a0a0a;
+    border-left: 1px solid #1f1f1f;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding: 24px;
+    gap: 16px;
+
+    transform: translateX(100%);
+    transition: 0.3s ease;
+    z-index: 2000;
+  }
+
+  .navbar-links.active {
+    transform: translateX(0);
   }
 
   .navbar-links a {
-    font-size: 16px;
-    padding: 6px 10px;
-    position: relative;
-  }
-
-  /* underline effect */
-  .navbar-links a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -4px;
-    width: 0%;
-    height: 2px;
-    background: #ef4444;
-    transition: 0.3s;
-  }
-
-  .navbar-links a:hover::after {
     width: 100%;
+    padding: 10px 0;
+  }
+
+  .nav-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding-top: 10px;
+    border-top: 1px solid #1f1f1f;
+  }
+
+  .user-box,
+  .admin-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .user-login-btn,
+  .admin-btn,
+  .user-logout-btn,
+  .admin-logout-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .user-badge {
+    width: 100%;
+    text-align: center;
   }
 }

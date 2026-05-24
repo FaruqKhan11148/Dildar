@@ -2,6 +2,8 @@ import './AdminLogin.css';
 import { useState } from 'react';
 import API from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -17,9 +19,6 @@ function AdminLogin() {
 
       const token = response.data?.token;
 
-      console.log('FULL RESPONSE:', response);
-      console.log('TOKEN:', token);
-
       if (!token) {
         alert('Login failed: No token received');
         return;
@@ -27,11 +26,8 @@ function AdminLogin() {
 
       localStorage.setItem('adminToken', token);
 
-      console.log('NAVIGATING NOW');
-
-      // 🔥 safer redirect (avoids React route guard issues)
-      window.location.href = '/admin/orders';
-
+      // better than window.location
+      navigate('/admin/orders');
     } catch (err) {
       console.log('LOGIN ERROR:', err);
       alert(err.response?.data?.message || 'Something went wrong');
@@ -39,32 +35,38 @@ function AdminLogin() {
   };
 
   return (
-    <div className="admin-page">
-      <div className="admin-container login-container">
-        <h2 className="admin-title">Admin Login</h2>
+    <>
+      <Navbar />
 
-        <div className="login-box">
-          <input
-            className="login-input"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+      <div className="admin-page">
+        <div className="admin-container login-container">
+          <h2 className="admin-title">Admin Login</h2>
 
-          <input
-            className="login-input"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="login-box">
+            <input
+              className="login-input"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-          <button className="login-btn" onClick={handleLogin}>
-            Login
-          </button>
+            <input
+              className="login-input"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <button className="login-btn" onClick={handleLogin}>
+              Login
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+
+      <Footer />
+    </>
   );
 }
 

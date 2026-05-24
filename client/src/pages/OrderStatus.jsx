@@ -20,7 +20,11 @@ function OrderStatus() {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const { data } = await API.get(`/orders/${id}`);
+        const { data } = await API.get(`/orders/me/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        });
         setOrder(data);
         console.log(data);
       } catch (error) {
@@ -105,14 +109,15 @@ function OrderStatus() {
 
             {isCancelled ? (
               <div className="cancel-box">
-                <h2>❌ Order Cancelled</h2>
+                <h2>Order Cancelled</h2>
 
                 <p>Refund Status: {order.refundStatus || 'Not Processed'}</p>
                 <p>Refund Amount: ₹{order.refundAmount || 0}</p>
                 <p>Refund Method: {order.refundMethod || 'N/A'}</p>
 
-                <p style={{ marginTop: '10px', color: '#aaa' }}>
-                  If paid online, refund will be credited to original payment source within 3–5 working days.
+                <p style={{ marginTop: '10px', color: '#cecece' }}>
+                  If paid online, refund will be credited to original payment
+                  source within 3–5 working days.
                 </p>
               </div>
             ) : (
@@ -133,14 +138,20 @@ function OrderStatus() {
                 <div className="extra-info-card">
                   <h3>📦 Order Details</h3>
 
-                  <p><strong>Order ID:</strong> {order._id}</p>
-                  <p><strong>Payment Method:</strong> {order.paymentMethod}</p>
+                  <p>
+                    <strong>Order ID:</strong> {order._id}
+                  </p>
+                  <p>
+                    <strong>Payment Method:</strong> {order.paymentMethod}
+                  </p>
                   <p>
                     <strong>Payment Status:</strong>{' '}
                     {order.isPaid ? 'Paid ✅' : 'Pending ❌'}
                   </p>
 
-                  <p><strong>Total Amount:</strong> ₹{order.totalAmount}</p>
+                  <p>
+                    <strong>Total Amount:</strong> ₹{order.totalAmount}
+                  </p>
 
                   <p>
                     <strong>Order Date:</strong>{' '}

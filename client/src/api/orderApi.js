@@ -12,3 +12,4 @@ export const getOrderById = (id) => API.get(`/orders/${id}`);
 // UPDATE order status (admin action)
 export const updateOrderStatus = (id, status) =>
   API.put(`/admin/orders/${id}/status`, { status });
+  

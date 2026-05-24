@@ -8,18 +8,34 @@ function Navbar() {
   const [open, setOpen] = useState(false);
 
   const adminToken = localStorage.getItem('adminToken');
+  const userToken = localStorage.getItem('userToken');
 
-  const handleLogout = () => {
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem('user'));
+  } catch (err) {
+    user = null;
+  }
+
+  const handleAdminLogout = () => {
     localStorage.removeItem('adminToken');
     window.location.href = '/';
   };
+
+  const handleUserLogout = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  };
+
+  const closeMenu = () => setOpen(false);
 
   return (
     <nav className="navbar-custom">
       <div className="navbar-container">
         {/* LOGO */}
-        <Link to="/" className="navbar-logo">
-          Dildar <span>Chicken</span>
+        <Link to="/" className="navbar-logo" onClick={closeMenu}>
+          Chicken<span>Hub</span>
         </Link>
 
         {/* HAMBURGER */}
@@ -29,45 +45,65 @@ function Navbar() {
 
         {/* LINKS */}
         <div className={`navbar-links ${open ? 'active' : ''}`}>
-          <Link to="/" onClick={() => setOpen(false)}>
+          <div style={{}} className="close-icon" onClick={() => setOpen(false)}>
+            <FaTimes />
+          </div>
+          {/* COMMON LINKS */}
+          <span className="user-badge">👋 {user?.name || 'User'}</span>
+          <Link to="/" onClick={closeMenu}>
             Home
           </Link>
-
-          <a href="/#products" onClick={() => setOpen(false)}>
+          <a href="/#products" onClick={closeMenu}>
             Products
           </a>
-
-          <Link to="/contact" onClick={() => setOpen(false)}>
+          <Link to="/contact" onClick={closeMenu}>
             Contact
           </Link>
 
-          {/* 🔥 ADMIN BUTTON */}
-          {!adminToken ? (
-            <Link
-              to="/admin/login"
-              onClick={() => setOpen(false)}
-              className="admin-btn"
-            >
-              Admin Login
-            </Link>
-          ) : (
-            <>
-              <Link
-                to="/admin/orders"
-                onClick={() => setOpen(false)}
-                className="admin-btn"
-              >
-                Admin Panel
+          {/* ================= USER SECTION ================= */}
+          <div className="nav-section">
+            {userToken ? (
+              <div className="user-box">
+                <Link to="/my-orders" className="user-link">
+                  My Orders
+                </Link>
+                <br />
+                <button className="user-logout-btn" onClick={handleUserLogout}>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="user-login-btn" onClick={closeMenu}>
+                User Login
               </Link>
+            )}
+          </div>
 
-              <button
-                onClick={handleLogout}
-                className="admin-logout-btn"
-              >
-                Logout
-              </button>
-            </>
-          )}
+          {/* ================= ADMIN SECTION ================= */}
+          <div className="nav-section">
+            {!adminToken ? (
+              <Link to="/admin/login" className="admin-btn" onClick={closeMenu}>
+                Admin Login
+              </Link>
+            ) : (
+              <div className="admin-box">
+                <Link
+                  to="/admin/orders"
+                  className="admin-btn"
+                  onClick={closeMenu}
+                >
+                  Admin Panel
+                </Link>
+
+                <button
+                  onClick={handleAdminLogout}
+                  className="admin-logout-btn"
+                >
+                  Admin Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>

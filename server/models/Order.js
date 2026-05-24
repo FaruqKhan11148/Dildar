@@ -2,10 +2,14 @@ const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+
     customerName: String,
-
     phone: String,
-
     address: String,
 
     location: {
@@ -41,37 +45,18 @@ const orderSchema = new mongoose.Schema(
     cancelledAt: Date,
     deliveredAt: Date,
 
-    // =========================
-    // REFUND
-    // =========================
     refundStatus: {
       type: String,
       default: 'Not Refunded',
     },
 
-    refundAmount: {
-      type: Number,
-      default: 0,
-    },
-
-    refundMethod: {
-      type: String,
-      default: '',
-    },
-
-    isRefunded: {
-      type: Boolean,
-      default: false,
-    },
-
-    refundId: {
-      type: String,
-      default: '',
-    },
-
+    refundAmount: { type: Number, default: 0 },
+    refundMethod: { type: String, default: '' },
+    isRefunded: { type: Boolean, default: false },
+    refundId: { type: String, default: '' },
     refundProcessedAt: Date,
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 module.exports = mongoose.model('Order', orderSchema);

@@ -47,11 +47,7 @@ function Checkout() {
       }
 
       // ❌ FIXED: removed address check
-      if (
-        !formData.customerName ||
-        !formData.phone ||
-        !formData.location
-      ) {
+      if (!formData.customerName || !formData.phone || !formData.location) {
         alert('Please fill all details & select location');
         return;
       }
@@ -68,8 +64,7 @@ function Checkout() {
 
         name: 'Faruq Chicken Shop',
         description: 'Fresh Chicken Order',
-        image:
-          'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',
+        image: 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',
 
         handler: async function (response) {
           try {
@@ -95,9 +90,15 @@ function Checkout() {
               totalAmount: totalPrice,
             };
 
+            const token = localStorage.getItem('userToken');
             const verifyRes = await API.post(
               '/payment/verify-payment',
-              verifyData
+              verifyData,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              },
             );
 
             const orderId = verifyRes.data?.order?._id;
@@ -110,8 +111,7 @@ function Checkout() {
             navigate(`/order-status/${orderId}`);
           } catch (err) {
             alert(
-              err?.response?.data?.message ||
-                'Payment verification failed'
+              err?.response?.data?.message || 'Payment verification failed',
             );
           }
         },
@@ -161,14 +161,14 @@ function Checkout() {
               </div>
             </div>
 
-            <div className="checkout-cart-right">
-              <button onClick={decreaseQuantity}>
+            <div className="checkout-cart-right qty-box">
+              <button className="qty-btn" onClick={decreaseQuantity}>
                 <FaMinus />
               </button>
 
-              <span>{quantity}</span>
+              <span>{quantity} KG</span>
 
-              <button onClick={increaseQuantity}>
+              <button className="qty-btn" onClick={increaseQuantity}>
                 <FaPlus />
               </button>
             </div>

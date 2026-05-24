@@ -29,8 +29,6 @@ exports.createOrder = async (req, res) => {
 
 // VERIFY PAYMENT
 exports.verifyPayment = async (req, res) => {
-  console.log('\n🔥 HIT verifyPayment ROUTE');
-  console.log('BODY RECEIVED:', req.body);
   try {
     console.log('\n==============================');
     console.log('🔥 VERIFY PAYMENT HIT');
@@ -61,17 +59,6 @@ exports.verifyPayment = async (req, res) => {
       quantity,
       totalAmount,
     } = req.body;
-
-    console.log('📦 DESTRUCTURED DATA:', {
-      razorpay_order_id,
-      razorpay_payment_id,
-      customerName,
-      phone,
-      location,
-      product,
-      quantity,
-      totalAmount,
-    });
 
     // =========================
     // SIGNATURE CHECK
@@ -155,7 +142,9 @@ exports.verifyPayment = async (req, res) => {
     // =========================
     console.log('💾 STEP 4: Creating order');
 
+    const userId = req.user.id;
     const newOrder = await Order.create({
+      userId,
       customerName,
       phone,
       location,
@@ -241,12 +230,9 @@ exports.processRefund = async (req, res) => {
     // =========================
     // RAZORPAY REFUND
     // =========================
-    const refund = await razorpay.payments.refund(
-      order.razorpay_payment_id,
-      {
-        amount: order.totalAmount * 100,
-      },
-    );
+    const refund = await razorpay.payments.refund(order.razorpay_payment_id, {
+      amount: order.totalAmount * 100,
+    });
 
     // =========================
     // SAVE IN DB

@@ -12,7 +12,9 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
     "axios": "^1.16.0",
+    "bcrypt": "^6.0.0",
     "bootstrap": "^5.3.8",
+    "jsonwebtoken": "^9.0.3",
     "leaflet": "^1.9.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",

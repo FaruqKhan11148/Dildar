@@ -1,27 +1,30 @@
 const express = require('express');
-
 const router = express.Router();
+const userAuth = require('../middlewares/userAuth');
 
+console.log('Order routes loaded');
 const {
   getOrders,
-
   createOrder,
-
-  updateOrderStatus,
-
   getSingleOrder,
+  updateOrderStatus,
+  getUserOrders,
+  getOrderById,
 } = require('../controllers/orderController');
 
-/* GET ALL ORDERS */
+// PUBLIC / ADMIN
 router.get('/', getOrders);
 
-/* CREATE ORDER */
-router.post('/', createOrder);
+// USER AUTH ROUTES
+router.post('/', userAuth, createOrder);
+router.get('/my', userAuth, getUserOrders);
 
-/* GET SINGLE ORDER */
+// 🔥 IMPORTANT: put this BEFORE /:id
+router.get('/me/:id', userAuth, getOrderById);
+
+// fallback single order
 router.get('/:id', getSingleOrder);
 
-/* UPDATE STATUS */
 router.put('/:id/status', updateOrderStatus);
 
 module.exports = router;

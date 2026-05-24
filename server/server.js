@@ -10,6 +10,7 @@ const errorHandler = require('./middlewares/errorMiddleware');
 const connectDB = require('./config/db');
 const adminRoutes = require('./routes/adminRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
@@ -38,12 +39,14 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 // ROUTES
 // app.use('/api', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/user', userRoutes);
 
 // TEST
 app.get('/', (req, res) => {
