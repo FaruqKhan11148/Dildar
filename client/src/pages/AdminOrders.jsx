@@ -57,7 +57,7 @@ function AdminOrders() {
     try {
       const token = localStorage.getItem('adminToken');
 
-      await API.put(
+      const { data } = await API.put(
         `/admin/orders/${id}/status`,
         { status },
         {
@@ -66,8 +66,11 @@ function AdminOrders() {
           },
         },
       );
+      console.log('UPDATED ORDER:', data);
     } catch (error) {
-      console.log(error);
+      console.log('UPDATE STATUS ERROR:', error);
+      console.log(error.response?.data);
+      alert(error.response?.data?.message || 'Status update failed');
     }
   };
 
