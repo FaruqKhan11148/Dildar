@@ -166,7 +166,8 @@ exports.verifyPayment = async (req, res) => {
       razorpay_order_id,
       razorpay_payment_id,
 
-      status: 'Pending Payment',
+      // status: 'Pending Payment',
+      status: 'Preparing',
       paidAt: new Date(),
     });
 
