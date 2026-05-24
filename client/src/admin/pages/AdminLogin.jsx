@@ -18,6 +18,7 @@ function AdminLogin() {
       });
 
       const token = response.data?.token;
+      console.log("the token after the admin login : " + token);
 
       if (!token) {
         alert('Login failed: No token received');
@@ -27,7 +28,7 @@ function AdminLogin() {
       localStorage.setItem('adminToken', token);
 
       // better than window.location
-      navigate('/admin/orders');
+      window.location.href = '/admin/orders';
     } catch (err) {
       console.log('LOGIN ERROR:', err);
       alert(err.response?.data?.message || 'Something went wrong');
